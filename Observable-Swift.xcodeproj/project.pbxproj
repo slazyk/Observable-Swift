@@ -11,11 +11,11 @@
 		65263AA91954BC5000B39269 /* Observable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65263A9D1954BC5000B39269 /* Observable.framework */; };
 		65263AB01954BC5000B39269 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AAF1954BC5000B39269 /* ObservableTests.swift */; };
 		65263ABA1954BC9F00B39269 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AB91954BC9F00B39269 /* Observable.swift */; };
-		65263ABC1954BCE100B39269 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263ABB1954BCE100B39269 /* Observer.swift */; };
-		65263ABE1954BD1600B39269 /* ObserverCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263ABD1954BD1600B39269 /* ObserverCollection.swift */; };
 		65263AC01954BD7400B39269 /* TupleObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263ABF1954BD7400B39269 /* TupleObservable.swift */; };
 		65263AC21954EBD600B39269 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC11954EBD600B39269 /* Protocols.swift */; };
 		65263AC41955004A00B39269 /* ObservableReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC31955004A00B39269 /* ObservableReference.swift */; };
+		65263AC61955D7AF00B39269 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC51955D7AE00B39269 /* Event.swift */; };
+		65263AC81955D83200B39269 /* EventSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC71955D83200B39269 /* EventSubscription.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,11 +36,11 @@
 		65263AAE1954BC5000B39269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65263AAF1954BC5000B39269 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
 		65263AB91954BC9F00B39269 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
-		65263ABB1954BCE100B39269 /* Observer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
-		65263ABD1954BD1600B39269 /* ObserverCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverCollection.swift; sourceTree = "<group>"; };
 		65263ABF1954BD7400B39269 /* TupleObservable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TupleObservable.swift; sourceTree = "<group>"; };
 		65263AC11954EBD600B39269 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		65263AC31955004A00B39269 /* ObservableReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableReference.swift; sourceTree = "<group>"; };
+		65263AC51955D7AE00B39269 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		65263AC71955D83200B39269 /* EventSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSubscription.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,8 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				65263AC11954EBD600B39269 /* Protocols.swift */,
-				65263ABB1954BCE100B39269 /* Observer.swift */,
-				65263ABD1954BD1600B39269 /* ObserverCollection.swift */,
+				65263AC51955D7AE00B39269 /* Event.swift */,
+				65263AC71955D83200B39269 /* EventSubscription.swift */,
 				65263AB91954BC9F00B39269 /* Observable.swift */,
 				65263AC31955004A00B39269 /* ObservableReference.swift */,
 				65263ABF1954BD7400B39269 /* TupleObservable.swift */,
@@ -231,11 +231,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				65263AC21954EBD600B39269 /* Protocols.swift in Sources */,
+				65263AC81955D83200B39269 /* EventSubscription.swift in Sources */,
 				65263AC01954BD7400B39269 /* TupleObservable.swift in Sources */,
 				65263ABA1954BC9F00B39269 /* Observable.swift in Sources */,
-				65263ABC1954BCE100B39269 /* Observer.swift in Sources */,
 				65263AC41955004A00B39269 /* ObservableReference.swift in Sources */,
-				65263ABE1954BD1600B39269 /* ObserverCollection.swift in Sources */,
+				65263AC61955D7AF00B39269 /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

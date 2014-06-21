@@ -223,7 +223,7 @@ class ObservableTests: XCTestCase {
         
         for _ in 0..1 {
             let owner = NSObject()
-            x.afterChange.add(owner: owner) { y = $0 }
+            x.afterChange.add(owner: owner) { (a, b) in y = b }
             x <- 12
             x <- 42
         }

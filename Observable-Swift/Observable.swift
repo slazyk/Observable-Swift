@@ -12,13 +12,9 @@
 struct Observable<T> : UnownableObservable {
     
     typealias ValueType = T
-    typealias ObserverCollectionType = ObserverCollection<T>
-    typealias ObserverType = ObserverCollectionType.ObserverType
-    typealias HandlerType = ObserverCollectionType.HandlerType
-    typealias SimpleHandlerType = ObserverCollectionType.SimpleHandlerType
 
-    var beforeChange = ObserverCollectionType()
-    var afterChange = ObserverCollectionType()
+    var beforeChange = Event<(T, T)>()
+    var afterChange = Event<(T, T)>()
     
     var value : T {
     get { return _value() }
@@ -26,8 +22,8 @@ struct Observable<T> : UnownableObservable {
     }
     
     var _value : () -> T {
-    willSet { beforeChange.notify(oldValue: _value(), newValue: newValue()) }
-    didSet { afterChange.notify(oldValue: oldValue(), newValue: _value()) }
+    willSet { beforeChange.notify(_value(), newValue()) }
+    didSet { afterChange.notify(oldValue(), _value()) }
     }
     
     @conversion func __conversion () -> T {
@@ -37,5 +33,4 @@ struct Observable<T> : UnownableObservable {
     init(_ v : T) {
         _value = { v }
     }
-    
 }

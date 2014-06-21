@@ -11,33 +11,28 @@
 class ObservableReference<T, O: AnyObservable where O.ValueType == T> : OwnableObservable {
     
     typealias ValueType = T
-    typealias ObserverCollectionType = ObserverCollection<ValueType>
-    typealias ObserverType = ObserverCollectionType.ObserverType
-    typealias HandlerType = ObserverCollectionType.HandlerType
-    typealias SimpleHandlerType = ObserverCollectionType.SimpleHandlerType
     
-    var beforeChange = ObserverCollectionType()
-    var afterChange = ObserverCollectionType()
+    var beforeChange = Event<(T, T)>()
+    var afterChange = Event<(T, T)>()
     
     var value : ValueType {
     get { return _value() }
     }
     
-    var _value : () -> ValueType
+    var _value : () -> T
     
-    @conversion func __conversion () -> ValueType {
+    @conversion func __conversion () -> T {
         return value
     }
     
     init (inout _ o : O) {
         self._value = { o.value }
         o.beforeChange.add(owner: self) { [weak self] (oV, nV) in
-            self!.beforeChange.notify(oldValue: oV, newValue: nV)
+            self!.beforeChange.notify(oV, nV)
         }
-        // why do I have to annotate types here?
-        o.afterChange.add(owner: self) { [weak self] (oV: ValueType, nV: ValueType) in
+        o.afterChange.add(owner: self) { [weak self] (oV, nV) in
             self!._value = { nV }
-            self!.afterChange.notify(oldValue: oV, newValue: nV)
+            self!.afterChange.notify(oV, nV)
         }
     }
     
@@ -50,14 +45,10 @@ class ObservableReference<T, O: AnyObservable where O.ValueType == T> : OwnableO
 class WritableObservableReference<T> : ObservableReference<T, Observable<T>>, WritableObservable {
     
     typealias ValueType = T
-    typealias ObserverCollectionType = ObserverCollection<ValueType>
-    typealias ObserverType = ObserverCollectionType.ObserverType
-    typealias HandlerType = ObserverCollectionType.HandlerType
-    typealias SimpleHandlerType = ObserverCollectionType.SimpleHandlerType
     
     var storage : Observable<T>
     
-    override var value: Observable<T>.ValueType {
+    override var value: T {
     get { return storage.value }
     set { storage.value = newValue }
     }

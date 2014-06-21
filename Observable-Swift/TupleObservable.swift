@@ -13,22 +13,17 @@ class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
     
     typealias ValueType = (T1, T2)
     
-    typealias ObserverCollectionType = ObserverCollection<(T1, T2)>
-    typealias ObserverType = ObserverCollectionType.ObserverType
-    typealias HandlerType = ObserverCollectionType.HandlerType
-    typealias SimpleHandler = ObserverCollectionType.SimpleHandlerType
-    
-    var beforeChange = ObserverCollectionType()
-    var afterChange = ObserverCollectionType()
+    var beforeChange = Event<((T1, T2), (T1, T2))>()
+    var afterChange = Event<((T1, T2), (T1, T2))>()
     
     var first : () -> T1
     var second : () -> T2
     
-    var value : ValueType {
+    var value : (T1, T2) {
     get { return (first(), second()) }
     }
     
-    @conversion func __conversion() -> ValueType {
+    @conversion func __conversion() -> (T1, T2) {
         return value
     }
     
@@ -39,18 +34,18 @@ class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
         first = { o1.value }
         second = { o2.value }
         o1.beforeChange.add(owner: self) { [weak self] (oV1, nV1) in
-            self!.beforeChange.notify(oldValue: (oV1, self!.second()), newValue: (nV1, self!.second()))
+            self!.beforeChange.notify((oV1, self!.second()), (nV1, self!.second()))
         }
         o1.afterChange.add(owner: self) { [weak self] (oV1, nV1) in
             self!.first = { nV1 }
-            self!.afterChange.notify(oldValue: (oV1, self!.second()), newValue: (nV1, self!.second()))
+            self!.afterChange.notify((oV1, self!.second()), (nV1, self!.second()))
         }
         o2.beforeChange.add(owner: self) { [weak self] (oV2, nV2) in
-            self!.beforeChange.notify(oldValue: (self!.first(), oV2), newValue: (self!.first(), nV2))
+            self!.beforeChange.notify((self!.first(), oV2), (self!.first(), nV2))
         }
         o2.afterChange.add(owner: self) { [weak self] (oV2, nV2) in
             self!.second = { nV2 }
-            self!.afterChange.notify(oldValue: (self!.first(), oV2), newValue: (self!.first(), nV2))
+            self!.afterChange.notify((self!.first(), oV2), (self!.first(), nV2))
         }
     }
 

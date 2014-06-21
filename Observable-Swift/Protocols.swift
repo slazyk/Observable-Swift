@@ -12,8 +12,8 @@ protocol AnyObservable {
     
     var value : ValueType { get }
     
-    var beforeChange : ObserverCollection<ValueType> { get set }
-    var afterChange : ObserverCollection<ValueType> { get set }
+    var beforeChange : Event<(ValueType, ValueType)> { get set }
+    var afterChange : Event<(ValueType, ValueType)> { get set }
     
     func __conversion () -> ValueType
 }
@@ -33,25 +33,38 @@ protocol OwnableObservable : AnyObservable {
     func ownableSelf() -> AnyObject
 }
 
+// observable <- value
 operator infix <- { }
+
+// value = observable^
 operator postfix ^ { }
 
+// observable ^= value
 @assignment func ^= <T : WritableObservable> (inout x: T, y: T.ValueType) {
     x.value = y
 }
 
-@assignment func += <T : WritableObservable> (inout x: T, y: ObserverCollection<T.ValueType>.HandlerType) -> ObserverCollection<T.ValueType>.ObserverType {
+// observable += { (old, new) in ... }
+@assignment func += <T : WritableObservable> (inout x: T, y: (T.ValueType, T.ValueType) -> ()) -> EventSubscription<(T.ValueType, T.ValueType)> {
     return x.afterChange += y
 }
 
-@assignment func += <T : WritableObservable> (inout x: T, y: ObserverCollection<T.ValueType>.SimpleHandlerType) -> ObserverCollection<T.ValueType>.ObserverType {
+// observable += { new in ... }
+@assignment func += <T : WritableObservable> (inout x: T, y: T.ValueType -> ()) -> EventSubscription<(T.ValueType, T.ValueType)> {
     return x.afterChange += y
 }
 
+// observable.{before,after}Change += { (old, new) in ... }
+@assignment func += <T> (inout event: Event<(T, T)>, handler: T -> ()) -> Event<(T, T)>.SubscriptionType {
+    return event.add({ (_,x) in handler(x) })
+}
+
+// for observable values on variables
 func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x: T, y: T.ValueType) {
     x.value = y
 }
 
+// for observable references on variables or constants
 func <- <T : protocol<WritableObservable, OwnableObservable>> (var x: T, y: T.ValueType) {
     x.value = y
 }

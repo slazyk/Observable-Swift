@@ -82,7 +82,7 @@ class ObservableTests: XCTestCase {
     func testShorthand() {
         var x = Observable(0)
         var y = -1
-        x += { y = $0 }
+        let s = x += { y = $0 }
         x <- 124
         XCTAssertEqual(y, x, "Should add observer with shorthand")
         
@@ -90,6 +90,11 @@ class ObservableTests: XCTestCase {
         
         x <- 42
         XCTAssertEqual(y, x, "Should add to afterChange")
+        
+        x -= s
+        x <- 18
+        
+        XCTAssertEqual(y, -1, "Should remove from afterChange")
     }
     
     func testRemove() {

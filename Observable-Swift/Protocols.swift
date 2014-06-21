@@ -54,6 +54,11 @@ operator postfix ^ { }
     return x.afterChange += y
 }
 
+// observable -= subscription
+@assignment func -= <T : WritableObservable> (inout x: T, s: EventSubscription<(T.ValueType, T.ValueType)>) {
+    x.afterChange -= s
+}
+
 // observable.{before,after}Change += { (old, new) in ... }
 @assignment func += <T> (inout event: Event<(T, T)>, handler: T -> ()) -> Event<(T, T)>.SubscriptionType {
     return event.add({ (_,x) in handler(x) })

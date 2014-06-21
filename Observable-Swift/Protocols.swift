@@ -18,9 +18,14 @@ protocol AnyObservable {
     func __conversion () -> ValueType
 }
 
-/// Observable which is a value type. Elementary observables are value types.
-protocol UnownableObservable : AnyObservable {
+/// Observable which can be written to
+protocol WritableObservable : AnyObservable {
     var value : ValueType { get set }
+}
+
+/// Observable which is a value type. Elementary observables are value types.
+protocol UnownableObservable : WritableObservable {
+
 }
 
 /// Observable which is a reference type. Compound observables are reference types.
@@ -31,11 +36,15 @@ protocol OwnableObservable : AnyObservable {
 operator infix <- { }
 operator postfix ^ { }
 
-@assignment func ^= <T : UnownableObservable> (inout x: T, y: T.ValueType) {
+@assignment func ^= <T : WritableObservable> (inout x: T, y: T.ValueType) {
     x.value = y
 }
 
-func <- <T : UnownableObservable> (inout x: T, y: T.ValueType) {
+func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x: T, y: T.ValueType) {
+    x.value = y
+}
+
+func <- <T : protocol<WritableObservable, OwnableObservable>> (var x: T, y: T.ValueType) {
     x.value = y
 }
 

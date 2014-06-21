@@ -6,9 +6,11 @@
 //  Copyright (c) 2014 Leszek Ślażyński. All rights reserved.
 //
 
-class ObservableReference<O: AnyObservable> : OwnableObservable {
+// two generic parameters are needed to be able to override `value` in `WritableObservableReference<T>`
+
+class ObservableReference<T, O: AnyObservable where O.ValueType == T> : OwnableObservable {
     
-    typealias ValueType = O.ValueType
+    typealias ValueType = T
     typealias ObserverCollectionType = ObserverCollection<ValueType>
     typealias ObserverType = ObserverCollectionType.ObserverType
     typealias HandlerType = ObserverCollectionType.HandlerType
@@ -27,8 +29,8 @@ class ObservableReference<O: AnyObservable> : OwnableObservable {
         return value
     }
     
-    init(inout _ o : O) {
-        _value = { o.value }
+    init (inout _ o : O) {
+        self._value = { o.value }
         o.beforeChange.add(owner: self) { [weak self] (oV, nV) in
             self!.beforeChange.notify(oldValue: oV, newValue: nV)
         }
@@ -45,6 +47,28 @@ class ObservableReference<O: AnyObservable> : OwnableObservable {
     
 }
 
-func reference <O: AnyObservable> (inout o: O) -> ObservableReference<O> {
+class WritableObservableReference<T> : ObservableReference<T, Observable<T>>, WritableObservable {
+    
+    typealias ValueType = T
+    typealias ObserverCollectionType = ObserverCollection<ValueType>
+    typealias ObserverType = ObserverCollectionType.ObserverType
+    typealias HandlerType = ObserverCollectionType.HandlerType
+    typealias SimpleHandlerType = ObserverCollectionType.SimpleHandlerType
+    
+    var storage : Observable<T>
+    
+    override var value: Observable<T>.ValueType {
+    get { return storage.value }
+    set { storage.value = newValue }
+    }
+    
+    init (_ v : T) {
+        storage = Observable(v)
+        super.init(&storage)
+    }
+    
+}
+
+func reference <O: AnyObservable> (inout o: O) -> ObservableReference<O.ValueType, O> {
     return ObservableReference(&o)
 }

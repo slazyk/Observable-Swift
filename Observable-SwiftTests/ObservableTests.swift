@@ -192,4 +192,10 @@ class ObservableTests: XCTestCase {
     }
 
     
+    func testStoredReferences() {
+        let x = WritableObservableReference(0)
+        x <- 1
+        XCTAssertEqual(x as Int, 1, "Should be equal to one")
+    }
+    
 }

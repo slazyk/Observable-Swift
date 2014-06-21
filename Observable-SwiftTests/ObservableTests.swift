@@ -124,11 +124,11 @@ class ObservableTests: XCTestCase {
         last <- "Snow"
         XCTAssertEqual(full, "John Snow", "Should update when first element changes")
         
-        first <- "Ramsey"
-        XCTAssertEqual(full, "Ramsey Snow", "Should update when second element changes")
+        first <- "Ramsay"
+        XCTAssertEqual(full, "Ramsay Snow", "Should update when second element changes")
         
         last <- "Bolton"
-        XCTAssertEqual(full, "Ramsey Bolton", "Should update when first element changes again")
+        XCTAssertEqual(full, "Ramsay Bolton", "Should update when first element changes again")
 
     }
     
@@ -158,8 +158,8 @@ class ObservableTests: XCTestCase {
         both.value.1 = "Snow"
         XCTAssertEqual(full, getFull(both), "Should update when one element changes")
 
-        both <- ("Ramsey", "Bolton")
-        XCTAssertEqual(full, "Ramsey Bolton", "Should update when whole tuple changes")
+        both <- ("Ramsay", "Bolton")
+        XCTAssertEqual(full, "Ramsay Bolton", "Should update when whole tuple changes")
     }
     
     func testObservableTriple() {

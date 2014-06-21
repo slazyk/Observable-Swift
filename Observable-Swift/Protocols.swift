@@ -40,6 +40,14 @@ operator postfix ^ { }
     x.value = y
 }
 
+@assignment func += <T : WritableObservable> (inout x: T, y: ObserverCollection<T.ValueType>.HandlerType) -> ObserverCollection<T.ValueType>.ObserverType {
+    return x.afterChange += y
+}
+
+@assignment func += <T : WritableObservable> (inout x: T, y: ObserverCollection<T.ValueType>.SimpleHandlerType) -> ObserverCollection<T.ValueType>.ObserverType {
+    return x.afterChange += y
+}
+
 func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x: T, y: T.ValueType) {
     x.value = y
 }

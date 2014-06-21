@@ -12,8 +12,20 @@ import Observable
 
 class ObservableTests: XCTestCase {
     
-    func testPairObservable() {
+    func testShorthand() {
+        var x = Observable(0)
+        var y = -1
+        x += { y = $0 }
+        x <- 124
+        XCTAssertEqual(y, x, "Should add observer with shorthand")
         
+        x.beforeChange += { (_,_) in y = -1 }
+        
+        x <- 42
+        XCTAssertEqual(y, x, "Should add to afterChange")
+    }
+    
+    func testPairObservable() {
         var (first, last) = (Observable("John"), Observable("Smith"))
         
         let either = first & last

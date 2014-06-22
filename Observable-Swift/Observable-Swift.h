@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Leszek Ślażyński. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Observable-Swift.
 FOUNDATION_EXPORT double Observable_SwiftVersionNumber;

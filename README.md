@@ -27,6 +27,14 @@ Using `Observable<T>` and related classes you can implement wide range of patter
 Sometimes, you don’t want to observe for value change, but other significant events.
 Under the hood `Observable<T>` uses `beforeChange` and `afterChange` of `Event<(T, T)>`. You can, however, use `Event<T>` directly and implement other events too.
 
+## Installation
+
+As of writing, Xcode 6 beta 2 does not support Swift static libraries, and CocoaPods 0.33.1 does not support Frameworks...
+
+Easiest option to use Observable-Swift in your project is to clone this repo and add Observable-Swift.xcodeproj to your project/workspace and then add Observable.framework to frameworks for your target.
+
+After that you just `import Observable`.
+
 ## Examples
 `Observable<T>` is a simple `struct` allowing you to have observable variables.
 
@@ -134,3 +142,7 @@ obj.doSomething()
 ```
 
 More examples can be found in tests in `ObservableTests.swift`
+
+## Author
+
+Observable-Swift is brought to you by Leszek Ślażyński (slazyk), you can follow me on [twitter](https://twitter.com/slazyk) and [github](https://github.com/slazyk). 

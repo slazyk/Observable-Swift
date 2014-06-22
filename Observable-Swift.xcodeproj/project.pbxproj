@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		65263AA31954BC5000B39269 /* Observable-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 65263AA21954BC5000B39269 /* Observable-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		65263AA91954BC5000B39269 /* Observable.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65263A9D1954BC5000B39269 /* Observable.framework */; };
 		65263AB01954BC5000B39269 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AAF1954BC5000B39269 /* ObservableTests.swift */; };
 		65263ABA1954BC9F00B39269 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AB91954BC9F00B39269 /* Observable.swift */; };
 		65263AC01954BD7400B39269 /* TupleObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263ABF1954BD7400B39269 /* TupleObservable.swift */; };
@@ -16,15 +15,100 @@
 		65263AC41955004A00B39269 /* ObservableReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC31955004A00B39269 /* ObservableReference.swift */; };
 		65263AC61955D7AF00B39269 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC51955D7AE00B39269 /* Event.swift */; };
 		65263AC81955D83200B39269 /* EventSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC71955D83200B39269 /* EventSubscription.swift */; };
+		6592C3251957545C00BA8CB7 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC11954EBD600B39269 /* Protocols.swift */; };
+		6592C3261957545C00BA8CB7 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC51955D7AE00B39269 /* Event.swift */; };
+		6592C3271957545C00BA8CB7 /* EventSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC71955D83200B39269 /* EventSubscription.swift */; };
+		6592C3281957545C00BA8CB7 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AB91954BC9F00B39269 /* Observable.swift */; };
+		6592C3291957545C00BA8CB7 /* ObservableReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC31955004A00B39269 /* ObservableReference.swift */; };
+		6592C32A1957545C00BA8CB7 /* TupleObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263ABF1954BD7400B39269 /* TupleObservable.swift */; };
+		6592C32B1957546100BA8CB7 /* Observable-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 65263AA21954BC5000B39269 /* Observable-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6592C3331957565F00BA8CB7 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AAF1954BC5000B39269 /* ObservableTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		65263AAA1954BC5000B39269 /* PBXContainerItemProxy */ = {
+		6592C3151957532200BA8CB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6592C2FB1957532100BA8CB7;
+			remoteInfo = "Observable-iOS";
+		};
+		6592C3171957532200BA8CB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6592C2FB1957532100BA8CB7;
+			remoteInfo = "Observable-iOS";
+		};
+		6592C3191957532300BA8CB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6592C2FB1957532100BA8CB7;
+			remoteInfo = "Observable-iOS";
+		};
+		6592C31B1957532300BA8CB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6592C2FB1957532100BA8CB7;
+			remoteInfo = "Observable-iOS";
+		};
+		6592C31F195753CF00BA8CB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6592C2FB1957532100BA8CB7;
+			remoteInfo = "Observable-iOS";
+		};
+		6592C3211957541900BA8CB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 65263A941954BC5000B39269 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 65263A9C1954BC5000B39269;
-			remoteInfo = "Observable-Swift";
+			remoteInfo = Observable;
+		};
+		6592C3231957541D00BA8CB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6592C2FB1957532100BA8CB7;
+			remoteInfo = "Observable-iOS";
+		};
+		6592C334195756C200BA8CB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 65263A9C1954BC5000B39269;
+			remoteInfo = Observable;
+		};
+		6592C336195756C200BA8CB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 65263A9C1954BC5000B39269;
+			remoteInfo = Observable;
+		};
+		65E7DC651957878A00CFB99C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 65263A9C1954BC5000B39269;
+			remoteInfo = Observable;
+		};
+		65E7DC671957878C00CFB99C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 65263A9C1954BC5000B39269;
+			remoteInfo = Observable;
+		};
+		65E7DC691957879500CFB99C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65263A941954BC5000B39269 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6592C2FB1957532100BA8CB7;
+			remoteInfo = "Observable-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -32,7 +116,7 @@
 		65263A9D1954BC5000B39269 /* Observable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65263AA11954BC5000B39269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65263AA21954BC5000B39269 /* Observable-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Observable-Swift.h"; sourceTree = "<group>"; };
-		65263AA81954BC5000B39269 /* Observable-SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Observable-SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65263AA81954BC5000B39269 /* Observable Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Observable Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65263AAE1954BC5000B39269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65263AAF1954BC5000B39269 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
 		65263AB91954BC9F00B39269 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -41,6 +125,8 @@
 		65263AC31955004A00B39269 /* ObservableReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableReference.swift; sourceTree = "<group>"; };
 		65263AC51955D7AE00B39269 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		65263AC71955D83200B39269 /* EventSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSubscription.swift; sourceTree = "<group>"; };
+		6592C2FC1957532100BA8CB7 /* Observable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6592C3061957532100BA8CB7 /* Observable-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Observable-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +141,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65263AA91954BC5000B39269 /* Observable.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6592C2F81957532100BA8CB7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6592C3031957532100BA8CB7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +174,9 @@
 			isa = PBXGroup;
 			children = (
 				65263A9D1954BC5000B39269 /* Observable.framework */,
-				65263AA81954BC5000B39269 /* Observable-SwiftTests.xctest */,
+				65263AA81954BC5000B39269 /* Observable Tests.xctest */,
+				6592C2FC1957532100BA8CB7 /* Observable.framework */,
+				6592C3061957532100BA8CB7 /* Observable-iOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,6 +234,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6592C2F91957532100BA8CB7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6592C32B1957546100BA8CB7 /* Observable-Swift.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -154,9 +263,9 @@
 			productReference = 65263A9D1954BC5000B39269 /* Observable.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		65263AA71954BC5000B39269 /* ObservableTests */ = {
+		65263AA71954BC5000B39269 /* Observable Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65263AB61954BC5000B39269 /* Build configuration list for PBXNativeTarget "ObservableTests" */;
+			buildConfigurationList = 65263AB61954BC5000B39269 /* Build configuration list for PBXNativeTarget "Observable Tests" */;
 			buildPhases = (
 				65263AA41954BC5000B39269 /* Sources */,
 				65263AA51954BC5000B39269 /* Frameworks */,
@@ -165,11 +274,57 @@
 			buildRules = (
 			);
 			dependencies = (
-				65263AAB1954BC5000B39269 /* PBXTargetDependency */,
+				6592C3221957541900BA8CB7 /* PBXTargetDependency */,
+				6592C335195756C200BA8CB7 /* PBXTargetDependency */,
+				6592C337195756C200BA8CB7 /* PBXTargetDependency */,
+				65E7DC661957878A00CFB99C /* PBXTargetDependency */,
+				65E7DC681957878C00CFB99C /* PBXTargetDependency */,
 			);
-			name = ObservableTests;
+			name = "Observable Tests";
 			productName = "Observable-SwiftTests";
-			productReference = 65263AA81954BC5000B39269 /* Observable-SwiftTests.xctest */;
+			productReference = 65263AA81954BC5000B39269 /* Observable Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6592C2FB1957532100BA8CB7 /* Observable-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6592C3131957532100BA8CB7 /* Build configuration list for PBXNativeTarget "Observable-iOS" */;
+			buildPhases = (
+				6592C2F71957532100BA8CB7 /* Sources */,
+				6592C2F81957532100BA8CB7 /* Frameworks */,
+				6592C2F91957532100BA8CB7 /* Headers */,
+				6592C2FA1957532100BA8CB7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Observable-iOS";
+			productName = "Observable-iOS";
+			productReference = 6592C2FC1957532100BA8CB7 /* Observable.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6592C3051957532100BA8CB7 /* Observable-iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6592C3141957532100BA8CB7 /* Build configuration list for PBXNativeTarget "Observable-iOS Tests" */;
+			buildPhases = (
+				6592C3021957532100BA8CB7 /* Sources */,
+				6592C3031957532100BA8CB7 /* Frameworks */,
+				6592C3041957532100BA8CB7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6592C3161957532200BA8CB7 /* PBXTargetDependency */,
+				6592C3181957532200BA8CB7 /* PBXTargetDependency */,
+				6592C31A1957532300BA8CB7 /* PBXTargetDependency */,
+				6592C31C1957532300BA8CB7 /* PBXTargetDependency */,
+				6592C320195753CF00BA8CB7 /* PBXTargetDependency */,
+				6592C3241957541D00BA8CB7 /* PBXTargetDependency */,
+				65E7DC6A1957879500CFB99C /* PBXTargetDependency */,
+			);
+			name = "Observable-iOS Tests";
+			productName = "Observable-iOSTests";
+			productReference = 6592C3061957532100BA8CB7 /* Observable-iOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -188,6 +343,13 @@
 						CreatedOnToolsVersion = 6.0;
 						TestTargetID = 65263A9C1954BC5000B39269;
 					};
+					6592C2FB1957532100BA8CB7 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					6592C3051957532100BA8CB7 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = 6592C2FB1957532100BA8CB7;
+					};
 				};
 			};
 			buildConfigurationList = 65263A971954BC5000B39269 /* Build configuration list for PBXProject "Observable-Swift" */;
@@ -203,7 +365,9 @@
 			projectRoot = "";
 			targets = (
 				65263A9C1954BC5000B39269 /* Observable */,
-				65263AA71954BC5000B39269 /* ObservableTests */,
+				65263AA71954BC5000B39269 /* Observable Tests */,
+				6592C2FB1957532100BA8CB7 /* Observable-iOS */,
+				6592C3051957532100BA8CB7 /* Observable-iOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -217,6 +381,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		65263AA61954BC5000B39269 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6592C2FA1957532100BA8CB7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6592C3041957532100BA8CB7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -247,13 +425,89 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6592C2F71957532100BA8CB7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6592C3281957545C00BA8CB7 /* Observable.swift in Sources */,
+				6592C3261957545C00BA8CB7 /* Event.swift in Sources */,
+				6592C3271957545C00BA8CB7 /* EventSubscription.swift in Sources */,
+				6592C32A1957545C00BA8CB7 /* TupleObservable.swift in Sources */,
+				6592C3251957545C00BA8CB7 /* Protocols.swift in Sources */,
+				6592C3291957545C00BA8CB7 /* ObservableReference.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6592C3021957532100BA8CB7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6592C3331957565F00BA8CB7 /* ObservableTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		65263AAB1954BC5000B39269 /* PBXTargetDependency */ = {
+		6592C3161957532200BA8CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6592C2FB1957532100BA8CB7 /* Observable-iOS */;
+			targetProxy = 6592C3151957532200BA8CB7 /* PBXContainerItemProxy */;
+		};
+		6592C3181957532200BA8CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6592C2FB1957532100BA8CB7 /* Observable-iOS */;
+			targetProxy = 6592C3171957532200BA8CB7 /* PBXContainerItemProxy */;
+		};
+		6592C31A1957532300BA8CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6592C2FB1957532100BA8CB7 /* Observable-iOS */;
+			targetProxy = 6592C3191957532300BA8CB7 /* PBXContainerItemProxy */;
+		};
+		6592C31C1957532300BA8CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6592C2FB1957532100BA8CB7 /* Observable-iOS */;
+			targetProxy = 6592C31B1957532300BA8CB7 /* PBXContainerItemProxy */;
+		};
+		6592C320195753CF00BA8CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6592C2FB1957532100BA8CB7 /* Observable-iOS */;
+			targetProxy = 6592C31F195753CF00BA8CB7 /* PBXContainerItemProxy */;
+		};
+		6592C3221957541900BA8CB7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 65263A9C1954BC5000B39269 /* Observable */;
-			targetProxy = 65263AAA1954BC5000B39269 /* PBXContainerItemProxy */;
+			targetProxy = 6592C3211957541900BA8CB7 /* PBXContainerItemProxy */;
+		};
+		6592C3241957541D00BA8CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6592C2FB1957532100BA8CB7 /* Observable-iOS */;
+			targetProxy = 6592C3231957541D00BA8CB7 /* PBXContainerItemProxy */;
+		};
+		6592C335195756C200BA8CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 65263A9C1954BC5000B39269 /* Observable */;
+			targetProxy = 6592C334195756C200BA8CB7 /* PBXContainerItemProxy */;
+		};
+		6592C337195756C200BA8CB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 65263A9C1954BC5000B39269 /* Observable */;
+			targetProxy = 6592C336195756C200BA8CB7 /* PBXContainerItemProxy */;
+		};
+		65E7DC661957878A00CFB99C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 65263A9C1954BC5000B39269 /* Observable */;
+			targetProxy = 65E7DC651957878A00CFB99C /* PBXContainerItemProxy */;
+		};
+		65E7DC681957878C00CFB99C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 65263A9C1954BC5000B39269 /* Observable */;
+			targetProxy = 65E7DC671957878C00CFB99C /* PBXContainerItemProxy */;
+		};
+		65E7DC6A1957879500CFB99C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6592C2FB1957532100BA8CB7 /* Observable-iOS */;
+			targetProxy = 65E7DC691957879500CFB99C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -276,7 +530,9 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0.1.0;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -292,11 +548,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				METAL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -320,8 +576,10 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0.1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -331,9 +589,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				METAL_ENABLE_DEBUG_INFO = NO;
-				SDKROOT = macosx;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -342,71 +601,104 @@
 		65263AB41954BC5000B39269 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "Observable-Swift/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				PRODUCT_NAME = Observable;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		65263AB51954BC5000B39269 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "Observable-Swift/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				PRODUCT_NAME = Observable;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
 		65263AB71954BC5000B39269 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "Observable-SwiftTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 		65263AB81954BC5000B39269 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Observable-SwiftTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		6592C30F1957532100BA8CB7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Observable-Swift/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = Observable;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6592C3101957532100BA8CB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Observable-Swift/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = Observable;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		6592C3111957532100BA8CB7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Observable-SwiftTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6592C3121957532100BA8CB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Observable-SwiftTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -429,14 +721,34 @@
 				65263AB51954BC5000B39269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		65263AB61954BC5000B39269 /* Build configuration list for PBXNativeTarget "ObservableTests" */ = {
+		65263AB61954BC5000B39269 /* Build configuration list for PBXNativeTarget "Observable Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65263AB71954BC5000B39269 /* Debug */,
 				65263AB81954BC5000B39269 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6592C3131957532100BA8CB7 /* Build configuration list for PBXNativeTarget "Observable-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6592C30F1957532100BA8CB7 /* Debug */,
+				6592C3101957532100BA8CB7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6592C3141957532100BA8CB7 /* Build configuration list for PBXNativeTarget "Observable-iOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6592C3111957532100BA8CB7 /* Debug */,
+				6592C3121957532100BA8CB7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

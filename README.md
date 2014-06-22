@@ -1,15 +1,16 @@
 # Value Observing and Events for Swift
 
-Swift lacks the powerful Key Value Observing (KVO) from Objective-C. But thanks to clousures, generics and property observers, in some cases it allows for far more elegent observing. You have to be explicit about what can be observed, though.
+Swift lacks the powerful Key Value Observing (KVO) from Objective-C. But thanks to closures, generics and property observers, in some cases it allows for far more elegant observing. You have to be explicit about what can be observed, though.
 
 ## Overview
 
 ### Observables
 
-Using `Observable<T>` and related clases you can impelement wide range of patterns using value observing. Some of the features: 
+Using `Observable<T>` and related classes you can implement wide range of patterns using value observing. Some of the features: 
 
 - observable variables and properties
 - short readable syntax using `+=`, `-=`, `<-`, `^`
+- alternative syntax for those who dislike custom operators
 - handlers for _before_ or _after_ the change
 - handlers for `(oldValue, newValue)` or `(newValue)`
 - adding multiple handlers per observable
@@ -23,7 +24,7 @@ Using `Observable<T>` and related clases you can impelement wide range of patter
 
 ### Events
 
-Sometimes, you dont want to observe for value change, but other significant events.
+Sometimes, you don’t want to observe for value change, but other significant events.
 Under the hood `Observable<T>` uses `beforeChange` and `afterChange` of `Event<(T, T)>`. You can, however, use `Event<T>` directly and implement other events too.
 
 ## Examples
@@ -35,9 +36,11 @@ var x = Observable(0)
 
 // add a handler
 x.afterChange += { println("Changed x from \($0) to \($1)") }
+// without operators: x.afterChange.add { ... }
 
 // change the value, prints "Changed x from 0 to 42"
 x <- 42
+// without operators: x.value = 42
 ```
 
 You can, of course, have observable properties in a `class` or a `struct`:
@@ -81,6 +84,7 @@ var x = Observable(0)
 let subscr = x.afterChange += { (_,_) in println("changed") }
 // ...
 x.afterChange -= subscr
+// without operators: x.afterChange.remove(subscr)
 ```
 
 Invalidating it:

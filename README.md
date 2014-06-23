@@ -4,6 +4,8 @@ Swift lacks the powerful Key Value Observing (KVO) from Objective-C. But thanks 
 
 ## Overview
 
+Observable-Swift is a Swift library for value observing (via explicit usage of `Observable<T>`) and subscribable events (also explicit, using `Event<T>`). The library is still under development, just as Swift is. Any contributions, both in terms of suggestions/ideas or actual code are welcome.
+
 ### Observables
 
 Using `Observable<T>` and related classes you can implement wide range of patterns using value observing. Some of the features: 
@@ -12,7 +14,7 @@ Using `Observable<T>` and related classes you can implement wide range of patter
 - short readable syntax using `+=`, `-=`, `<-`, `^`
 - alternative syntax for those who dislike custom operators
 - handlers for _before_ or _after_ the change
-- handlers for `(oldValue, newValue)` or `(newValue)`
+- handlers for `{ oldValue:, newValue: }` `(oldValue, newValue)` or `(newValue)`
 - adding multiple handlers per observable
 - removing / invalidating handlers
 - handlers tied to observer lifetime
@@ -25,7 +27,7 @@ Using `Observable<T>` and related classes you can implement wide range of patter
 ### Events
 
 Sometimes, you don’t want to observe for value change, but other significant events.
-Under the hood `Observable<T>` uses `beforeChange` and `afterChange` of `Event<(T, T)>`. You can, however, use `Event<T>` directly and implement other events too.
+Under the hood `Observable<T>` uses `beforeChange` and `afterChange` of `EventReference<ValueChange<T>>`. You can, however, use `Event<T>` or `EventReference<T>` directly and implement other events too.
 
 ## Installation
 
@@ -69,8 +71,8 @@ ramsay.last.afterChange += { println("Ramsay \($0) is now Ramsay \($1)") }
 ramsay.last <- "Bolton"
 ```
 
-For value types (such as `structs` or `tuples`) you can also observe their mutations:
-
+For value types (such as `structs` or `tuples`) you can also observe their mutations:  
+*Since `Observable` is a `struct`, ramsay in example above gets mutated too. This means, you could observe ramsay as well.*
 
 ```swift
 struct Person {
@@ -116,7 +118,7 @@ for _ in 0..1 {
 x <- -1 // handler not called
 ```
 
-`Event<T>` is a simple `struct` allowing you to define subscribable events. `Observable<T>` uses `Event<(T, T)>` for `afterChange` and `beforeChange`.
+`Event<T>` is a simple `struct` allowing you to define subscribable events. `Observable<T>` uses `EventReference<ValueChange<T>>` for `afterChange` and `beforeChange`.
 
 ```swift
 class SomeClass {
@@ -142,6 +144,13 @@ obj.doSomething()
 ```
 
 More examples can be found in tests in `ObservableTests.swift`
+
+## Advanced
+
+If you require observables as reference types, you can use either `ObservableProxy` which is a reference type in between your code and the real `Observable` value type. You can also use `ObservableReference` which is a `ObservableProxy` to an `Observable` that it holds on a property.
+
+Same is true for `Event`, there is `EventReference` as well. Actually, `Observable` uses `EventReference` instead of `Event`, otherwise some use cases would be difficult to implement. This means, that if you want to unshare events and subscriptions you need to call `observable.unshare(removeSubscriptions:)`.
+
 
 ## Author
 

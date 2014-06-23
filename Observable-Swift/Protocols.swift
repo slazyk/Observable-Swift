@@ -33,13 +33,19 @@ protocol AnyEvent {
 
 /// Arbitrary observable.
 protocol AnyObservable {
+    
     typealias ValueType
     
+    /// Value of the observable.
     var value : ValueType { get }
     
-    var beforeChange : Event<(ValueType, ValueType)> { get set }
-    var afterChange : Event<(ValueType, ValueType)> { get set }
+    /// Event fired before value is changed
+    var beforeChange : EventReference<ValueChange<ValueType>> { get set }
     
+    /// Event fired after value is changed
+    var afterChange : EventReference<ValueChange<ValueType>> { get set }
+    
+    /// Conversion function for casting to ValueType.
     func __conversion () -> ValueType
 }
 
@@ -50,7 +56,8 @@ protocol WritableObservable : AnyObservable {
 
 /// Observable which is a value type. Elementary observables are value types.
 protocol UnownableObservable : WritableObservable {
-
+    /// Unshares events
+    mutating func unshare(#removeSubscriptions: Bool)
 }
 
 /// Observable which is a reference type. Compound observables are reference types.
@@ -69,24 +76,32 @@ operator postfix ^ { }
     x.value = y
 }
 
+// observable += { valuechange in ... }
+@assignment func += <T : WritableObservable> (inout x: T, y: ValueChange<T.ValueType> -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
+    return x.afterChange += y
+}
+
 // observable += { (old, new) in ... }
-@assignment func += <T : WritableObservable> (inout x: T, y: (T.ValueType, T.ValueType) -> ()) -> EventSubscription<(T.ValueType, T.ValueType)> {
+@assignment func += <T : WritableObservable> (inout x: T, y: (T.ValueType, T.ValueType) -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable += { new in ... }
-@assignment func += <T : WritableObservable> (inout x: T, y: T.ValueType -> ()) -> EventSubscription<(T.ValueType, T.ValueType)> {
+@assignment func += <T : WritableObservable> (inout x: T, y: T.ValueType -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable -= subscription
-@assignment func -= <T : WritableObservable> (inout x: T, s: EventSubscription<(T.ValueType, T.ValueType)>) {
-    x.afterChange -= s
+@assignment func -= <T : WritableObservable> (inout x: T, s: EventSubscription<ValueChange<T.ValueType>>) {
+    x.afterChange.remove(s)
 }
 
-// observable.{before,after}Change += { (old, new) in ... }
-@assignment func += <T> (inout event: Event<(T, T)>, handler: T -> ()) -> Event<(T, T)>.SubscriptionType {
-    return event.add({ (_,x) in handler(x) })
+@assignment func += <T> (inout event: EventReference<ValueChange<T>>, handler: (T, T) -> ()) -> EventSubscription<ValueChange<T>> {
+    return event.add({ handler($0.oldValue, $0.newValue) })
+}
+
+@assignment func += <T> (inout event: EventReference<ValueChange<T>>, handler: T -> ()) -> EventSubscription<ValueChange<T>> {
+    return event.add({ handler($0.newValue) })
 }
 
 // for observable values on variables

@@ -12,11 +12,35 @@ import Observable
 
 class ObservableTests: XCTestCase {
     
-    // if handler takes 2 arguments it should be (oldValue, newValue)
+    // copying an observable is exposed here as a function in case it changes
+    // e.g. if Observables become classes instead of structs
+    func makeCopy<T>(x: Observable<T>) -> Observable<T> {
+        var copy = Observable(x^)
+        copy.unshare(removeSubscriptions: true)
+        return copy
+    }
+    
+    
+    // handler can take one argument of ValueChange struct
     func testFullHandler() {
         var x = Observable(0)
         var t : (Int, Int) = (-1, -1)
-        x.afterChange += { t = ($0, $1) }
+        x.afterChange += { c in t = (c.oldValue, c.newValue) }
+        
+        x <- 1
+        XCTAssertEqual(t.0, 0, "Should receive correct old value")
+        XCTAssertEqual(t.1, 1, "Should receive correct new value")
+        
+        x <- 2
+        XCTAssertEqual(t.0, 1, "Should receive correct old value")
+        XCTAssertEqual(t.1, 2, "Should receive correct new value")
+    }
+    
+    // if handler takes 2 arguments it should be (oldValue, newValue)
+    func testPairHandler() {
+        var x = Observable(0)
+        var t : (Int, Int) = (-1, -1)
+        x.afterChange += { (x, y) in t = (x, y) }
         
         x <- 1
         XCTAssertEqual(t.0, 0, "Should receive correct old value")
@@ -40,6 +64,7 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(t, 2, "Should receive correct new value")
     }
     
+    // Apple engineers said @conversion and __conversion are impl details :(
     func testConversions() {
         var x = Observable(22)
         var y = Observable(20)
@@ -79,6 +104,7 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(y, 42, "Should be set in after")
     }
     
+    // should be able to add afterChange handlers directly to observable
     func testShorthand() {
         var x = Observable(0)
         var y = -1
@@ -97,6 +123,17 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(y, -1, "Should remove from afterChange")
     }
     
+    func testAddHandlerToOptional() {
+        var original = Observable(0)
+        var optional = Optional.Some(original)
+        
+        var calledTimes = 0
+        optional!.afterChange.add({ _ in calledTimes += 1 })
+        
+        original <- 42
+        XCTAssertEqual(1, calledTimes, "Should be able to add handler to optional")
+    }
+    
     func testRemove() {
         var x = Observable(0)
         var y = 0
@@ -109,6 +146,49 @@ class ObservableTests: XCTestCase {
         
         for i in 0..5 { x <- i }
         XCTAssertEqual(y, 5, "Should not update after removed")
+    }
+    
+    func testValueAfterCopy() {
+        var original = Observable(0)
+        var copy = makeCopy(original)
+        
+        XCTAssertEqual(0, original^)
+        XCTAssertEqual(0, copy^)
+        
+        copy <- 42
+        
+        XCTAssertEqual(0, original^, "Original should stay the same")
+        XCTAssertEqual(42, copy^, "Copy should change")
+    }
+    
+    func testHandlerAfterCopy() {
+        var original = Observable(0)
+        var copy = makeCopy(original)
+        
+        var calledTimes = 0
+        
+        copy += { (_,_) in calledTimes += 1 }
+        
+        original <- 42
+        XCTAssertEqual(0, calledTimes, "Only changes to copy should fire")
+        
+        copy <- 42
+        XCTAssertEqual(1, calledTimes, "Only changes to copy should fire")
+    }
+    
+    func testHandlerBeforeCopy() {
+        var original = Observable(0)
+        
+        var calledTimes = 0
+        original += { (_,_) in calledTimes += 1 }
+        
+        var copy = makeCopy(original)
+        
+        copy <- 42
+        XCTAssertEqual(0, calledTimes, "Only changes to original should fire")
+        
+        original <- 42
+        XCTAssertEqual(1, calledTimes, "Only changes to original should fire")
     }
     
     func testPairObservable() {
@@ -193,6 +273,42 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(full, "John Snow", "Should update when field changes")
     }
     
+    func testStructModifiedWhenPropertyModified() {
+        struct Person {
+            var first: String
+            var last: Observable<String>
+        }
+        
+        var person = Observable(Person(first: "John", last: Observable("Doe")))
+        
+        var personChangedTimes = 0
+        var lastChangedTimes = 0
+        
+        person.value.last += { (_,_) in lastChangedTimes += 1 }
+        person += { (_,_) in personChangedTimes += 1 }
+        
+        person.value.last <- "Snow"
+        person.value.first = "John"
+        person <- Person(first: "Ramsay", last: Observable("Bolton"))
+        
+        XCTAssertEqual(1, lastChangedTimes)
+        XCTAssertEqual(3, personChangedTimes)
+        
+        // unfortunately `+=` means mutation
+        person.value.last += { (_,_) in () }
+        XCTAssertEqual(4, personChangedTimes)
+        
+        // even on reference type `EventReference<T>`
+        person.value.last.afterChange += { (_,_) in () }
+        XCTAssertEqual(5, personChangedTimes)
+        
+        // ... when calling the function does not ...
+        person.value.last.afterChange.add({ _ in () })
+        XCTAssertEqual(5, personChangedTimes)
+        
+        XCTAssertEqual(1, lastChangedTimes)
+    }
+    
     func testMultipleTimes() {
         var x = Observable(0)
         var y = 0
@@ -228,7 +344,7 @@ class ObservableTests: XCTestCase {
         
         for _ in 0..1 {
             let owner = NSObject()
-            x.afterChange.add(owner: owner) { (a, b) in y = b }
+            x.afterChange.add(owner: owner) { c in y = c.newValue }
             x <- 12
             x <- 42
         }
@@ -237,30 +353,28 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(y, 42, "Should not update after owner is deallocated")
     }
     
-    func testReferenceOwnership() {
+    func testProxyOwnership() {
         var x = Observable(0)
         
         var y = 0
         
         for _ in 0..1 {
-            let xr = reference(&x)
+            let xr = proxy(&x)
             xr.afterChange += { (_,_) in y += 1 }
             for i in 0..5 { x <- i }
         }
         
         for i in 0..5 { x <- i }
         
-        XCTAssertEqual(y, 5, "Should increment only when reference is alive")
-        
+        XCTAssertEqual(y, 5, "Should increment only when proxy is alive")
     }
 
-    func testReferenceLifetime() {
+    func testProxyLifetime() {
         var x = Observable(0)
         var y = 0
 
-        var xr = reference(&x)
+        var xr = proxy(&x)
         xr.afterChange += { (_,_) in y += 1 }
-        
 
         for i in 0..5 { x <- i }
         
@@ -272,10 +386,10 @@ class ObservableTests: XCTestCase {
 
         for i in 0..2 { z <- i }
 
-        XCTAssertEqual(y, 7, "Should increment for refered object or a copy")
+        XCTAssertEqual(y, 7, "Should increment for refered object or a value-copy")
     }
 
-    func testCopySementics() {
+    func testValueCopySementics() {
         var x = Observable(0)
         var y = x;
         y <- 1
@@ -297,10 +411,22 @@ class ObservableTests: XCTestCase {
         
         // well... this is kind of unfortunate, but expected since x was copied
         XCTAssertEqual(y, 2, "Should be called for both x and z")
+
+        // this actually makes observers not shared
+        z.unshare(removeSubscriptions: true)
+        
+        z <- 30
+        x <- 40
+        
+        XCTAssertEqual(z.value, 30)
+        XCTAssertEqual(x.value, 40)
+        
+        XCTAssertEqual(y, 3, "Should be called for both x only")
+        
     }
     
-    func testStoredReferences() {
-        let x = WritableObservableReference(0)
+    func testReferences() {
+        let x = ObservableReference(0)
         x <- 1
         XCTAssertEqual(x as Int, 1, "Should be equal to one")
     }

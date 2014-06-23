@@ -13,8 +13,8 @@ class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
     
     typealias ValueType = (T1, T2)
     
-    var beforeChange = Event<((T1, T2), (T1, T2))>()
-    var afterChange = Event<((T1, T2), (T1, T2))>()
+    var beforeChange = EventReference<ValueChange<(T1, T2)>>()
+    var afterChange = EventReference<ValueChange<(T1, T2)>>()
     
     var first : () -> T1
     var second : () -> T2
@@ -33,19 +33,33 @@ class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
         self.dependent = dependent
         first = { o1.value }
         second = { o2.value }
-        o1.beforeChange.add(owner: self) { [weak self] (oV1, nV1) in
-            self!.beforeChange.notify((oV1, self!.second()), (nV1, self!.second()))
+        o1.beforeChange.add(owner: self) { [weak self] c1 in
+            let oldV = (c1.oldValue, self!.second())
+            let newV = (c1.newValue, self!.second())
+            let change = ValueChange(oldV, newV)
+            self!.beforeChange.notify(change)
         }
-        o1.afterChange.add(owner: self) { [weak self] (oV1, nV1) in
+        o1.afterChange.add(owner: self) { [weak self] c1 in
+            let nV1 = c1.newValue
             self!.first = { nV1 }
-            self!.afterChange.notify((oV1, self!.second()), (nV1, self!.second()))
+            let oldV = (c1.oldValue, self!.second())
+            let newV = (c1.newValue, self!.second())
+            let change = ValueChange(oldV, newV)
+            self!.afterChange.notify(change)
         }
-        o2.beforeChange.add(owner: self) { [weak self] (oV2, nV2) in
-            self!.beforeChange.notify((self!.first(), oV2), (self!.first(), nV2))
+        o2.beforeChange.add(owner: self) { [weak self] c2 in
+            let oldV = (self!.first(), c2.oldValue)
+            let newV = (self!.first(), c2.newValue)
+            let change = ValueChange(oldV, newV)
+            self!.beforeChange.notify(change)
         }
-        o2.afterChange.add(owner: self) { [weak self] (oV2, nV2) in
+        o2.afterChange.add(owner: self) { [weak self] c2 in
+            let nV2 = c2.newValue
             self!.second = { nV2 }
-            self!.afterChange.notify((self!.first(), oV2), (self!.first(), nV2))
+            let oldV = (self!.first(), c2.oldValue)
+            let newV = (self!.first(), c2.newValue)
+            let change = ValueChange(oldV, newV)
+            self!.afterChange.notify(change)
         }
     }
 

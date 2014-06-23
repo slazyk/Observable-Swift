@@ -6,6 +6,31 @@
 //  Copyright (c) 2014 Leszek Ślażyński. All rights reserved.
 //
 
+/// Arbitrary Event.
+protocol AnyEvent {
+    
+    typealias ValueType
+    
+    /// Notify all valid subscriptions of the change. Remove invalid ones.
+    mutating func notify(value: ValueType)
+    
+    /// Add an existing subscription.
+    mutating func add(subscription: EventSubscription<ValueType>) -> EventSubscription<ValueType>
+    
+    /// Create, add and return a subscription for given handler.
+    mutating func add(handler : ValueType -> ()) -> EventSubscription<ValueType>
+    
+    /// Remove given subscription, if present.
+    mutating func remove(subscription : EventSubscription<ValueType>)
+    
+    /// Remove all subscriptions.
+    mutating func removeAll()
+    
+    /// Create, add and return a subscription with given handler and owner.
+    mutating func add(#owner : AnyObject, _ handler : ValueType -> ()) -> EventSubscription<ValueType>
+
+}
+
 /// Arbitrary observable.
 protocol AnyObservable {
     typealias ValueType

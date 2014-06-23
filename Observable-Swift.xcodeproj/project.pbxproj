@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		65263AA31954BC5000B39269 /* Observable-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 65263AA21954BC5000B39269 /* Observable-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		65263AA31954BC5000B39269 /* Observable.h in Headers */ = {isa = PBXBuildFile; fileRef = 65263AA21954BC5000B39269 /* Observable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		65263AB01954BC5000B39269 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AAF1954BC5000B39269 /* ObservableTests.swift */; };
 		65263ABA1954BC9F00B39269 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AB91954BC9F00B39269 /* Observable.swift */; };
 		65263AC01954BD7400B39269 /* TupleObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263ABF1954BD7400B39269 /* TupleObservable.swift */; };
@@ -21,7 +21,7 @@
 		6592C3281957545C00BA8CB7 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AB91954BC9F00B39269 /* Observable.swift */; };
 		6592C3291957545C00BA8CB7 /* ObservableReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AC31955004A00B39269 /* ObservableReference.swift */; };
 		6592C32A1957545C00BA8CB7 /* TupleObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263ABF1954BD7400B39269 /* TupleObservable.swift */; };
-		6592C32B1957546100BA8CB7 /* Observable-Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 65263AA21954BC5000B39269 /* Observable-Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6592C32B1957546100BA8CB7 /* Observable.h in Headers */ = {isa = PBXBuildFile; fileRef = 65263AA21954BC5000B39269 /* Observable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6592C3331957565F00BA8CB7 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AAF1954BC5000B39269 /* ObservableTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -115,7 +115,7 @@
 /* Begin PBXFileReference section */
 		65263A9D1954BC5000B39269 /* Observable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65263AA11954BC5000B39269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		65263AA21954BC5000B39269 /* Observable-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Observable-Swift.h"; sourceTree = "<group>"; };
+		65263AA21954BC5000B39269 /* Observable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Observable.h; sourceTree = "<group>"; };
 		65263AA81954BC5000B39269 /* Observable Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Observable Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65263AAE1954BC5000B39269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65263AAF1954BC5000B39269 /* ObservableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTests.swift; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 				65263AB91954BC9F00B39269 /* Observable.swift */,
 				65263AC31955004A00B39269 /* ObservableReference.swift */,
 				65263ABF1954BD7400B39269 /* TupleObservable.swift */,
-				65263AA21954BC5000B39269 /* Observable-Swift.h */,
+				65263AA21954BC5000B39269 /* Observable.h */,
 				65263AA01954BC5000B39269 /* Supporting Files */,
 			);
 			name = Observable;
@@ -230,7 +230,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65263AA31954BC5000B39269 /* Observable-Swift.h in Headers */,
+				65263AA31954BC5000B39269 /* Observable.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,7 +238,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6592C32B1957546100BA8CB7 /* Observable-Swift.h in Headers */,
+				6592C32B1957546100BA8CB7 /* Observable.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

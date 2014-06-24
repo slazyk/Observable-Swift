@@ -25,6 +25,8 @@
 		6592C3331957565F00BA8CB7 /* ObservableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65263AAF1954BC5000B39269 /* ObservableTests.swift */; };
 		65A18B951958C180008E0B44 /* EventReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A18B941958C180008E0B44 /* EventReference.swift */; };
 		65A18B961958C180008E0B44 /* EventReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A18B941958C180008E0B44 /* EventReference.swift */; };
+		65A18B971958D21A008E0B44 /* Chaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E7DC711957919100CFB99C /* Chaining.swift */; };
+		65A18B981958D21B008E0B44 /* Chaining.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E7DC711957919100CFB99C /* Chaining.swift */; };
 		65E6A4341958EB8000FBCFA7 /* ObservableProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E6A4331958EB8000FBCFA7 /* ObservableProxy.swift */; };
 		65E6A4351958EB8000FBCFA7 /* ObservableProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E6A4331958EB8000FBCFA7 /* ObservableProxy.swift */; };
 /* End PBXBuildFile section */
@@ -133,6 +135,7 @@
 		6592C3061957532100BA8CB7 /* Observable-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Observable-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A18B941958C180008E0B44 /* EventReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReference.swift; sourceTree = "<group>"; };
 		65E6A4331958EB8000FBCFA7 /* ObservableProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableProxy.swift; sourceTree = "<group>"; };
+		65E7DC711957919100CFB99C /* Chaining.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chaining.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +201,7 @@
 				65E6A4331958EB8000FBCFA7 /* ObservableProxy.swift */,
 				65263AC31955004A00B39269 /* ObservableReference.swift */,
 				65263ABF1954BD7400B39269 /* TupleObservable.swift */,
+				65E7DC711957919100CFB99C /* Chaining.swift */,
 				65263AA21954BC5000B39269 /* Observable.h */,
 				65263AA01954BC5000B39269 /* Supporting Files */,
 			);
@@ -418,6 +422,7 @@
 			files = (
 				65263AC21954EBD600B39269 /* Protocols.swift in Sources */,
 				65263AC81955D83200B39269 /* EventSubscription.swift in Sources */,
+				65A18B971958D21A008E0B44 /* Chaining.swift in Sources */,
 				65A18B951958C180008E0B44 /* EventReference.swift in Sources */,
 				65263AC01954BD7400B39269 /* TupleObservable.swift in Sources */,
 				65263ABA1954BC9F00B39269 /* Observable.swift in Sources */,
@@ -441,6 +446,7 @@
 			files = (
 				6592C3281957545C00BA8CB7 /* Observable.swift in Sources */,
 				6592C3261957545C00BA8CB7 /* Event.swift in Sources */,
+				65A18B981958D21B008E0B44 /* Chaining.swift in Sources */,
 				65A18B961958C180008E0B44 /* EventReference.swift in Sources */,
 				6592C3271957545C00BA8CB7 /* EventSubscription.swift in Sources */,
 				6592C32A1957545C00BA8CB7 /* TupleObservable.swift in Sources */,

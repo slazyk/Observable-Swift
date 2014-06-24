@@ -20,6 +20,65 @@ class ObservableTests: XCTestCase {
         return copy
     }
     
+    func testChaining() {
+        class Person {
+            let firstName: String
+            var lastName: Observable<String>
+            var friend: Observable<Person?> = Observable(nil)
+            
+            init(first: String, last: String) {
+                firstName = first
+                lastName = Observable(last)
+            }
+        }
+        
+        var john = Person(first: "John", last: "Doe")
+        var ramsay = Person(first: "Ramsay", last: "Snow")
+        
+        var me = Person(first: "John", last: "Snow")
+
+        var name1 : String? = nil
+        var name2 : String? = nil
+        
+        // you can either chain(x).to{$0.y}.to{...}[...].afterChange
+        chain(me.friend).to{$0?.lastName}.afterChange += { (_, newValue) in
+            name1 = newValue
+        }
+
+        // or (x/{$0.y}/{...}/...).afterChange
+        (me.friend/{$0?.friend}/{$0?.lastName}).afterChange += { (_, newValue) in
+            name2 = newValue
+        }
+        
+        me.friend <- john
+        XCTAssertEqual(name1!, john.lastName.value)
+        XCTAssertNil(name2)
+        
+        me.friend <- ramsay
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertNil(name2)
+        
+        john.lastName <- "Stark"
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertNil(name2)
+        
+        ramsay.lastName <- "Bolton"
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertNil(name2)
+
+        ramsay.friend <- john
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertEqual(name2!, john.lastName.value)
+        
+        john.lastName <- "Doe"
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertEqual(name2!, john.lastName.value)
+
+        me.friend <- john
+        XCTAssertEqual(name1!, john.lastName.value)
+        XCTAssertNil(name2)
+        
+    }
     
     // handler can take one argument of ValueChange struct
     func testFullHandler() {

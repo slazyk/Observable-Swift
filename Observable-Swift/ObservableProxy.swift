@@ -25,7 +25,7 @@ class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : OwnableObser
         return value
     }
     
-    init (inout _ o : O) {
+    init (_ o : O) {
         self._value = { o.value }
         o.beforeChange.add(owner: self) { [weak self] change in
             self!.beforeChange.notify(change)
@@ -43,6 +43,6 @@ class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : OwnableObser
     
 }
 
-func proxy <O: AnyObservable> (inout o: O) -> ObservableProxy<O.ValueType, O> {
-    return ObservableProxy(&o)
+func proxy <O: AnyObservable> (o: O) -> ObservableProxy<O.ValueType, O> {
+    return ObservableProxy(o)
 }

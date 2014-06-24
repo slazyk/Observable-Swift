@@ -19,7 +19,7 @@ class ObservableReference<T> : ObservableProxy<T, Observable<T>>, WritableObserv
     
     init (_ v : T) {
         storage = Observable(v)
-        super.init(&storage)
+        super.init(storage)
     }
     
 }

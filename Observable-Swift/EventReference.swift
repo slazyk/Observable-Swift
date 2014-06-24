@@ -7,7 +7,7 @@
 //
 
 /// A class enclosing an Event struct. Thus exposing it as a reference type.
-class EventReference<T>: AnyEvent {
+class EventReference<T>: OwnableEvent {
     typealias ValueType = T
     typealias SubscriptionType = EventSubscription<T>
     typealias HandlerType = EventSubscription<T>.HandlerType

@@ -298,13 +298,13 @@ class ObservableTests: XCTestCase {
         person.value.last += { (_,_) in () }
         XCTAssertEqual(4, personChangedTimes)
         
-        // even on reference type `EventReference<T>`
+        // but _not_ on reference type `EventReference<T>`
         person.value.last.afterChange += { (_,_) in () }
-        XCTAssertEqual(5, personChangedTimes)
+        XCTAssertEqual(4, personChangedTimes)
         
-        // ... when calling the function does not ...
+        // ... and when calling the add method ...
         person.value.last.afterChange.add({ _ in () })
-        XCTAssertEqual(5, personChangedTimes)
+        XCTAssertEqual(4, personChangedTimes)
         
         XCTAssertEqual(1, lastChangedTimes)
     }
@@ -359,7 +359,7 @@ class ObservableTests: XCTestCase {
         var y = 0
         
         for _ in 0..1 {
-            let xr = proxy(&x)
+            let xr = proxy(x)
             xr.afterChange += { (_,_) in y += 1 }
             for i in 0..5 { x <- i }
         }
@@ -373,7 +373,7 @@ class ObservableTests: XCTestCase {
         var x = Observable(0)
         var y = 0
 
-        var xr = proxy(&x)
+        var xr = proxy(x)
         xr.afterChange += { (_,_) in y += 1 }
 
         for i in 0..5 { x <- i }

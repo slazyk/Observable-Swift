@@ -31,6 +31,16 @@ protocol AnyEvent {
 
 }
 
+/// Event which is a value type.
+protocol UnownableEvent: AnyEvent {
+
+}
+
+/// Event which is a reference type
+protocol OwnableEvent: AnyEvent {
+
+}
+
 /// Arbitrary observable.
 protocol AnyObservable {
     
@@ -77,35 +87,37 @@ operator postfix ^ { }
 }
 
 // observable += { valuechange in ... }
-@assignment func += <T : WritableObservable> (inout x: T, y: ValueChange<T.ValueType> -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
+@infix func += <T : AnyObservable> (inout x: T, y: ValueChange<T.ValueType> -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable += { (old, new) in ... }
-@assignment func += <T : WritableObservable> (inout x: T, y: (T.ValueType, T.ValueType) -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
+@infix func += <T : AnyObservable> (inout x: T, y: (T.ValueType, T.ValueType) -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable += { new in ... }
-@assignment func += <T : WritableObservable> (inout x: T, y: T.ValueType -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
+@infix func += <T : AnyObservable> (inout x: T, y: T.ValueType -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable -= subscription
-@assignment func -= <T : WritableObservable> (inout x: T, s: EventSubscription<ValueChange<T.ValueType>>) {
+@infix func -= <T : AnyObservable> (inout x: T, s: EventSubscription<ValueChange<T.ValueType>>) {
     x.afterChange.remove(s)
 }
 
-@assignment func += <T> (inout event: EventReference<ValueChange<T>>, handler: (T, T) -> ()) -> EventSubscription<ValueChange<T>> {
+// event += { (old, new) in ... }
+@infix func += <T> (event: EventReference<ValueChange<T>>, handler: (T, T) -> ()) -> EventSubscription<ValueChange<T>> {
     return event.add({ handler($0.oldValue, $0.newValue) })
 }
 
-@assignment func += <T> (inout event: EventReference<ValueChange<T>>, handler: T -> ()) -> EventSubscription<ValueChange<T>> {
+// event += { new in ... }
+@infix func += <T> (event: EventReference<ValueChange<T>>, handler: T -> ()) -> EventSubscription<ValueChange<T>> {
     return event.add({ handler($0.newValue) })
 }
 
 // for observable values on variables
-func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x: T, y: T.ValueType) {
+@infix func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x: T, y: T.ValueType) {
     x.value = y
 }
 

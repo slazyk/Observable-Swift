@@ -11,7 +11,7 @@
 // If you require a reference type for Event, use EventReference<T> instead
 
 /// A struct representing a collection of subscriptions with means to add, remove and notify them.
-struct Event<T>: AnyEvent {
+struct Event<T>: UnownableEvent {
     typealias ValueType = T
     typealias SubscriptionType = EventSubscription<T>
     typealias HandlerType = SubscriptionType.HandlerType
@@ -61,11 +61,18 @@ struct Event<T>: AnyEvent {
     
 }
 
-@assignment func += <T: AnyEvent> (inout event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
+@assignment func += <T: UnownableEvent> (inout event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
     return event.add(handler)
 }
 
-@assignment func -= <T: AnyEvent> (inout event: T, subscription: EventSubscription<T.ValueType>) {
+@infix func += <T: OwnableEvent> (var event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
+    return event.add(handler)
+}
+
+@assignment func -= <T: UnownableEvent> (inout event: T, subscription: EventSubscription<T.ValueType>) {
     return event.remove(subscription)
 }
 
+@infix func -= <T: OwnableEvent> (var event: T, subscription: EventSubscription<T.ValueType>) {
+    return event.remove(subscription)
+}

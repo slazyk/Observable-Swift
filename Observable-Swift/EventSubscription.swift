@@ -13,14 +13,23 @@ class EventSubscription<T> {
     
     typealias HandlerType = T -> ()
     
-    /// When invalid subscription is to be notified, it is removed instead.
-    var valid : () -> Bool
+    var _valid : () -> Bool
     
     /// Handler to be caled when value changes.
     var handler : HandlerType
     
+    /// When invalid subscription is to be notified, it is removed instead.
+    func valid() -> Bool {
+        if !_valid() {
+            invalidate()
+            return false
+        } else {
+            return true
+        }
+    }
+    
     func invalidate() {
-        valid = { false }
+        _valid = { false }
         handler = { _ in () }
     }
     
@@ -28,9 +37,9 @@ class EventSubscription<T> {
     /// If owner is present, valid() is tied to its lifetime.
     init(owner o: AnyObject?, handler h: HandlerType) {
         if o == nil {
-            valid = { true }
+            _valid = { true }
         } else {
-            valid = { [weak o] in o != nil }
+            _valid = { [weak o] in o != nil }
         }
         handler = h
     }

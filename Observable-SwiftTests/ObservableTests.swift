@@ -20,66 +20,6 @@ class ObservableTests: XCTestCase {
         return copy
     }
     
-    func testChaining() {
-        class Person {
-            let firstName: String
-            var lastName: Observable<String>
-            var friend: Observable<Person?> = Observable(nil)
-            
-            init(first: String, last: String) {
-                firstName = first
-                lastName = Observable(last)
-            }
-        }
-        
-        var john = Person(first: "John", last: "Doe")
-        var ramsay = Person(first: "Ramsay", last: "Snow")
-        
-        var me = Person(first: "John", last: "Snow")
-
-        var name1 : String? = nil
-        var name2 : String? = nil
-        
-        // you can either chain(x).to{$0.y}.to{...}[...].afterChange
-        chain(me.friend).to{$0?.lastName}.afterChange += { (_, newValue) in
-            name1 = newValue
-        }
-
-        // or (x/{$0.y}/{...}/...).afterChange
-        (me.friend/{$0?.friend}/{$0?.lastName}).afterChange += { (_, newValue) in
-            name2 = newValue
-        }
-        
-        me.friend <- john
-        XCTAssertEqual(name1!, john.lastName.value)
-        XCTAssertNil(name2)
-        
-        me.friend <- ramsay
-        XCTAssertEqual(name1!, ramsay.lastName.value)
-        XCTAssertNil(name2)
-        
-        john.lastName <- "Stark"
-        XCTAssertEqual(name1!, ramsay.lastName.value)
-        XCTAssertNil(name2)
-        
-        ramsay.lastName <- "Bolton"
-        XCTAssertEqual(name1!, ramsay.lastName.value)
-        XCTAssertNil(name2)
-
-        ramsay.friend <- john
-        XCTAssertEqual(name1!, ramsay.lastName.value)
-        XCTAssertEqual(name2!, john.lastName.value)
-        
-        john.lastName <- "Doe"
-        XCTAssertEqual(name1!, ramsay.lastName.value)
-        XCTAssertEqual(name2!, john.lastName.value)
-
-        me.friend <- john
-        XCTAssertEqual(name1!, john.lastName.value)
-        XCTAssertNil(name2)
-        
-    }
-    
     // handler can take one argument of ValueChange struct
     func testFullHandler() {
         var x = Observable(0)
@@ -488,6 +428,148 @@ class ObservableTests: XCTestCase {
         let x = ObservableReference(0)
         x <- 1
         XCTAssertEqual(x as Int, 1, "Should be equal to one")
+    }
+    
+    func testChainingWithStructs() {
+        struct Test { var test = Observable(0) }
+        var test = Observable(Test())
+        
+        var beforeTimes = 0
+        var afterTimes = 0
+        var currentValue = -1
+        
+        chain(test).to{$0.test}.beforeChange += { (_,_) in beforeTimes += 1 }
+        chain(test).to{$0.test}.afterChange += { (_,_) in afterTimes += 1 }
+        chain(test).to{$0.test}.afterChange += { currentValue = $0.newValue! }
+        
+        XCTAssertEqual(beforeTimes, 0)
+        XCTAssertEqual(afterTimes, 0)
+        
+        test.value.test <- 1
+        XCTAssertEqual(beforeTimes, 1)
+        XCTAssertEqual(afterTimes, 1)
+        XCTAssertEqual(currentValue, 1)
+        
+        test <- Test()
+        XCTAssertEqual(beforeTimes, 2)
+        XCTAssertEqual(afterTimes, 2)
+        XCTAssertEqual(currentValue, 0)
+    }
+    
+    func testChainingWithOptionals() {
+        class Person {
+            let firstName: String
+            var lastName: Observable<String>
+            var friend: Observable<Person?> = Observable(nil)
+            
+            init(first: String, last: String) {
+                firstName = first
+                lastName = Observable(last)
+            }
+        }
+        
+        var john = Person(first: "John", last: "Doe")
+        var ramsay = Person(first: "Ramsay", last: "Snow")
+        
+        var me = Person(first: "John", last: "Snow")
+        
+        var name1 : String? = nil
+        var name2 : String? = nil
+        
+        // you can either chain(x).to{$0.y}.to{...}[...].afterChange
+        chain(me.friend).to{$0?.lastName}.afterChange += { (_, newValue) in
+            name1 = newValue
+        }
+        
+        // or (x/{$0.y}/{...}/...).afterChange
+        (me.friend/{$0?.friend}/{$0?.lastName}).afterChange += { (_, newValue) in
+            name2 = newValue
+        }
+        
+        me.friend <- john
+        XCTAssertEqual(name1!, john.lastName.value)
+        XCTAssertNil(name2)
+        
+        me.friend <- ramsay
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertNil(name2)
+        
+        john.lastName <- "Stark"
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertNil(name2)
+        
+        ramsay.lastName <- "Bolton"
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertNil(name2)
+        
+        ramsay.friend <- john
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertEqual(name2!, john.lastName.value)
+        
+        john.lastName <- "Doe"
+        XCTAssertEqual(name1!, ramsay.lastName.value)
+        XCTAssertEqual(name2!, john.lastName.value)
+        
+        me.friend <- john
+        XCTAssertEqual(name1!, john.lastName.value)
+        XCTAssertNil(name2)
+        
+    }
+    
+    func testChainingWithOwner() {
+        struct Test { var test = Observable(0) }
+        
+        var afterTimes = 0
+        var test = Observable(Test())
+        
+        for _ in 0..1 {
+            let o = NSObject()
+            chain(test).to{$0.test}.afterChange.add(owner: o) { _ in afterTimes += 1 }
+            
+            test.value.test <- 1
+            XCTAssertEqual(afterTimes, 1)
+            
+            test <- Test()
+            XCTAssertEqual(afterTimes, 2)
+        }
+        
+        test.value.test <- 1
+        XCTAssertEqual(afterTimes, 2)
+        
+        test <- Test()
+        XCTAssertEqual(afterTimes, 2)
+        
+    }
+    
+    func testChainingCleanup() {
+        struct Test { var test = Observable(0) }
+        
+        var afterTimes = 0
+        var test = Observable(Test())
+        
+        weak var proxy : ChainingProxy<Observable<Test>, Observable<Int>>? = nil
+        weak var event : EventReference<ValueChange<Int?>>? = nil
+        
+        for _ in 0..1 {
+            let strongProxy = chain(test).to{$0.test}
+            proxy = strongProxy
+            
+            let subscription = strongProxy.afterChange += { (_,_) in afterTimes += 1 }
+            
+            event = strongProxy.afterChange
+            
+            test.value.test <- 1
+            XCTAssertEqual(afterTimes, 1)
+            
+            event! -= subscription
+            
+            test <- Test()
+            XCTAssertEqual(afterTimes, 1)
+        }
+        
+        XCTAssertNil(event)
+        XCTAssertNil(proxy)
+        
     }
     
 }

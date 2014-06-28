@@ -21,6 +21,7 @@ class EventSubscription<T> {
     
     func invalidate() {
         valid = { false }
+        handler = { _ in () }
     }
     
     /// Init with a handler and an optional owner.

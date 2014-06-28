@@ -25,7 +25,7 @@ class EventSubscription<T> {
     
     /// Init with a handler and an optional owner.
     /// If owner is present, valid() is tied to its lifetime.
-    init(_ o: AnyObject?, _ h : HandlerType) {
+    init(owner o: AnyObject?, handler h: HandlerType) {
         if o == nil {
             valid = { true }
         } else {

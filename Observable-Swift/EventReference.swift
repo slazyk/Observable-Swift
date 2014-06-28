@@ -14,26 +14,16 @@ class EventReference<T>: OwnableEvent {
     
     var event: Event<T>
     
-    var owned: () -> AnyObject? = { nil }
-    
     func notify(value: T) {
         event.notify(value)
     }
     
     func add(subscription: SubscriptionType) -> SubscriptionType {
-        let subscr = event.add(subscription)
-        if owned() {
-            subscr._owned = { self }
-        }
-        return subscr
+        return event.add(subscription)
     }
     
     func add(handler : T -> ()) -> EventSubscription<T> {
-        let subscr = event.add(handler)
-        if owned() {
-            subscr._owned = { self }
-        }
-        return subscr
+        return event.add(handler)
     }
     
     func remove(subscription : SubscriptionType) {
@@ -45,11 +35,7 @@ class EventReference<T>: OwnableEvent {
     }
     
     func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
-        let subscr = event.add(owner: owner, handler)
-        if owned() {
-            subscr._owned = { self }
-        }
-        return subscr
+        return event.add(owner: owner, handler)
     }
     
     convenience init() {

@@ -8,7 +8,15 @@
 
 // Implemented as a class, so it can be compared using === and !==.
 
-/// A class representing a subsription for `Event<T>`.
+// There is no way for event to get notified when the owner was deallocated,
+// therefore it will be invalidated only upon next attempt to trigger.
+
+// Event subscriptions are neither freed nor removed from events upon invalidation.
+// Events remove invalidated subscriptions themselves when firing.
+
+// Invalidation immediately frees handler and owned objects.
+
+/// A class representing a subscription for `Event<T>`.
 class EventSubscription<T> {
     
     typealias HandlerType = T -> ()
@@ -18,7 +26,8 @@ class EventSubscription<T> {
     /// Handler to be caled when value changes.
     var handler : HandlerType
     
-    var _owned : () -> AnyObject? = { nil }
+    /// @protected array of owned objects
+    var _owned = AnyObject[]()
     
     /// When invalid subscription is to be notified, it is removed instead.
     func valid() -> Bool {
@@ -30,10 +39,11 @@ class EventSubscription<T> {
         }
     }
     
+    /// Marks the event for removal, frees the handler and owned objects
     func invalidate() {
         _valid = { false }
         handler = { _ in () }
-        _owned = { nil }
+        _owned = []
     }
     
     /// Init with a handler and an optional owner.
@@ -45,5 +55,15 @@ class EventSubscription<T> {
             _valid = { [weak o] in o != nil }
         }
         handler = h
+    }
+    
+    /// Add an object to be owned while the event is not invalidated
+    func addOwnedObject(o: AnyObject) {
+        _owned += o
+    }
+    
+    /// Remove object from owned objects
+    func removeOwnedObject(o: AnyObject) {
+        _owned = _owned.filter{ $0 !== o }
     }
 }

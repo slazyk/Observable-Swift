@@ -547,7 +547,7 @@ class ObservableTests: XCTestCase {
         var afterTimes = 0
         var test = Observable(Test())
         
-        weak var proxy : ChainingProxy<Observable<Test>, Observable<Int>>? = nil
+        weak var proxy : ObservableChainingProxy<Observable<Test>, Observable<Int>>? = nil
         weak var event : EventReference<ValueChange<Int?>>? = nil
         
         for _ in 0..1 {

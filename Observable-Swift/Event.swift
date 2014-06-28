@@ -31,7 +31,7 @@ struct Event<T>: UnownableEvent {
     }
     
     mutating func add(handler : HandlerType) -> SubscriptionType {
-        return add(SubscriptionType(nil, handler))
+        return add(SubscriptionType(owner: nil, handler))
     }
     
     mutating func remove(subscription : SubscriptionType) {
@@ -52,7 +52,7 @@ struct Event<T>: UnownableEvent {
     }
     
     mutating func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
-        return add(SubscriptionType(owner, handler))
+        return add(SubscriptionType(owner: owner, handler: handler))
     }
     
     mutating func unshare() {

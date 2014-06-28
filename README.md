@@ -11,6 +11,7 @@ Observable-Swift is a Swift library for value observing (via explicit usage of `
 Using `Observable<T>` and related classes you can implement wide range of patterns using value observing. Some of the features: 
 
 - observable variables and properties
+- chaining of observables (a.k.a. key path observing)
 - short readable syntax using `+=`, `-=`, `<-`, `^`
 - alternative syntax for those who dislike custom operators
 - handlers for _before_ or _after_ the change
@@ -116,6 +117,30 @@ for _ in 0..1 {
     x <- 42 // handler called
 } // o deallocated, handler invalidated
 x <- -1 // handler not called
+```
+
+You can also chain observables (observe "key paths"):
+```swift
+class Person {
+    let firstName: String
+    var lastName: Observable<String>
+    var friend: Observable<Person?> = Observable(nil)
+	// init(...) { ... }
+}
+
+let me = Person()
+var myFriendsName : String? = nil
+
+// we want to observe my current friend last name
+// and get notified with name when the friend or the name changes
+chain(me.friend).to{$0?.lastName}.afterChange += { (_, newName) in
+	myFriendsName = newName
+}
+
+// alternatively, we can do the same with '/' operator
+(me.friend / {$0?.lastName}).afterChange += { (_, newName) in
+	myFriendsName = newName
+}
 ```
 
 `Event<T>` is a simple `struct` allowing you to define subscribable events. `Observable<T>` uses `EventReference<ValueChange<T>>` for `afterChange` and `beforeChange`.

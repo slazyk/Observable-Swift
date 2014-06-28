@@ -75,12 +75,26 @@ class ChainingProxy<O1: AnyObservable, O2: AnyObservable>: OwnableObservable {
         return ChainingProxy<ChainingProxy<O1, O2>, O3>(base: self, path: cascadeNil)
     }
     
+    func to<O3: AnyObservable>(path f: O2.ValueType -> O3) -> ChainingProxy<ChainingProxy<O1, O2>, O3> {
+        func cascadeNil(oOrNil: ValueType) -> O3? {
+            if let o = oOrNil {
+                return f(o)
+            } else {
+                return nil
+            }
+        }
+        return ChainingProxy<ChainingProxy<O1, O2>, O3>(base: self, path: cascadeNil)
+    }
+    
 }
 
 struct ChainingBase<O1: AnyObservable> {
     let base: O1
     func to<O2: AnyObservable>(path: O1.ValueType -> O2?) -> ChainingProxy<O1, O2> {
         return ChainingProxy(base: base, path: path)
+    }
+    func to<O2: AnyObservable>(path: O1.ValueType -> O2) -> ChainingProxy<O1, O2> {
+        return ChainingProxy(base: base, path: { .Some(path($0)) })
     }
 }
 

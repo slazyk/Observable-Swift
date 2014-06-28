@@ -18,6 +18,8 @@ class EventSubscription<T> {
     /// Handler to be caled when value changes.
     var handler : HandlerType
     
+    var _owned : () -> AnyObject? = { nil }
+    
     /// When invalid subscription is to be notified, it is removed instead.
     func valid() -> Bool {
         if !_valid() {
@@ -31,6 +33,7 @@ class EventSubscription<T> {
     func invalidate() {
         _valid = { false }
         handler = { _ in () }
+        _owned = { nil }
     }
     
     /// Init with a handler and an optional owner.

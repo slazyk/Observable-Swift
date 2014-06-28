@@ -20,8 +20,30 @@ class ChainingProxy<O1: AnyObservable, O2: AnyObservable>: OwnableObservable {
         return nil
     }
     
-    var beforeChange = EventReference<ValueChange<ValueType>>()
-    var afterChange = EventReference<ValueChange<ValueType>>()
+    var _beforeChange : () -> EventReference<ValueChange<ValueType>>? = { nil }
+    var _afterChange : () -> EventReference<ValueChange<ValueType>>? = { nil }
+    
+    var beforeChange : EventReference<ValueChange<ValueType>> {
+        if let event = _beforeChange() {
+            return event
+        } else {
+            let event = EventReference<ValueChange<ValueType>>()
+            event.owned = { self }
+            _beforeChange = { [weak event] in event }
+            return event
+        }
+    }
+    
+    var afterChange : EventReference<ValueChange<ValueType>> {
+        if let event = _afterChange() {
+            return event
+        } else {
+            let event = EventReference<ValueChange<ValueType>>()
+            event.owned = { self }
+            _afterChange = { [weak event] in event }
+            return event
+        }
+    }
     
     let _base: () -> O1
 
@@ -41,12 +63,12 @@ class ChainingProxy<O1: AnyObservable, O2: AnyObservable>: OwnableObservable {
         }
         
         //FIXME: subscriptions hold strong reference to self
-        var beforeSubscription = EventSubscription(self) {
-            self.beforeChange.notify(targetChangeToValueChange($0))
+        var beforeSubscription = EventSubscription(owner: self) { [weak self] in
+            self!.beforeChange.notify(targetChangeToValueChange($0))
         }
         
-        var afterSubscription = EventSubscription(self) {
-            self.afterChange.notify(targetChangeToValueChange($0))
+        var afterSubscription = EventSubscription(owner: self) { [weak self] in
+            self!.afterChange.notify(targetChangeToValueChange($0))
         }
         
         base.beforeChange.add(owner: self) { [weak self] oc in

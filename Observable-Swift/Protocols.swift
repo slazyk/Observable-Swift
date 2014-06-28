@@ -50,10 +50,10 @@ protocol AnyObservable {
     var value : ValueType { get }
     
     /// Event fired before value is changed
-    var beforeChange : EventReference<ValueChange<ValueType>> { get set }
+    var beforeChange : EventReference<ValueChange<ValueType>> { get }
     
     /// Event fired after value is changed
-    var afterChange : EventReference<ValueChange<ValueType>> { get set }
+    var afterChange : EventReference<ValueChange<ValueType>> { get }
     
     /// Conversion function for casting to ValueType.
     func __conversion () -> ValueType

@@ -6,6 +6,9 @@ Swift lacks the powerful Key Value Observing (KVO) from Objective-C. But thanks 
 
 Observable-Swift is a Swift library for value observing (via explicit usage of `Observable<T>`) and subscribable events (also explicit, using `Event<T>`). The library is still under development, just as Swift is. Any contributions, both in terms of suggestions/ideas or actual code are welcome.
 
+Observable-Swift is brought to you by Leszek Ślażyński (slazyk), you can follow me on [twitter](https://twitter.com/slazyk) and [github](https://github.com/slazyk). 
+Also check out [SINQ](https://github.com/slazyk/SINQ) my other Swift library that makes working with collections a breeze.
+
 ### Observables
 
 Using `Observable<T>` and related classes you can implement wide range of patterns using value observing. Some of the features: 
@@ -175,8 +178,3 @@ More examples can be found in tests in `ObservableTests.swift`
 If you require observables as reference types, you can use either `ObservableProxy` which is a reference type in between your code and the real `Observable` value type. You can also use `ObservableReference` which is a `ObservableProxy` to an `Observable` that it holds on a property.
 
 Same is true for `Event`, there is `EventReference` as well. Actually, `Observable` uses `EventReference` instead of `Event`, otherwise some use cases would be difficult to implement. This means, that if you want to unshare events and subscriptions you need to call `observable.unshare(removeSubscriptions:)`.
-
-
-## Author
-
-Observable-Swift is brought to you by Leszek Ślażyński (slazyk), you can follow me on [twitter](https://twitter.com/slazyk) and [github](https://github.com/slazyk). 

@@ -16,7 +16,7 @@ struct Event<T>: UnownableEvent {
     typealias SubscriptionType = EventSubscription<T>
     typealias HandlerType = SubscriptionType.HandlerType
     
-    var _subscriptions = SubscriptionType[]()
+    var _subscriptions = [SubscriptionType]()
     
     mutating func notify(value: T) {
         _subscriptions = _subscriptions.filter { $0.valid() }
@@ -35,7 +35,7 @@ struct Event<T>: UnownableEvent {
     }
     
     mutating func remove(subscription : SubscriptionType) {
-        var newsubscriptions = SubscriptionType[]()
+        var newsubscriptions = [SubscriptionType]()
         var first = true
         for existing in _subscriptions {
             if first && existing === subscription {
@@ -56,7 +56,7 @@ struct Event<T>: UnownableEvent {
     }
     
     mutating func unshare() {
-        _subscriptions.unshare()
+//        _subscriptions.unshare()
     }
     
 }

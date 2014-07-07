@@ -139,11 +139,11 @@ class ObservableTests: XCTestCase {
         
         let observer = x.afterChange += { (_,_) in y += 1 }
         
-        for i in 0..5 { x <- i }
+        for i in 0..<5 { x <- i }
         
         x.afterChange -= observer
         
-        for i in 0..5 { x <- i }
+        for i in 0..<5 { x <- i }
         XCTAssertEqual(y, 5, "Should not update after removed")
     }
     
@@ -313,7 +313,7 @@ class ObservableTests: XCTestCase {
         var y = 0
         x.afterChange.add(x.afterChange += { (_,_) in y += 1 })
         
-        for i in 0..10 { x <- i }
+        for i in 0..<10 { x <- i }
         
         XCTAssertEqual(y, 20, "Should be called twice every update")
     }
@@ -323,17 +323,17 @@ class ObservableTests: XCTestCase {
         var y = 0
         let obs = x.afterChange.add(x.afterChange += { (_,_) in y += 1 })
         
-        for i in 0..10 { x <- i }
+        for i in 0..<10 { x <- i }
         XCTAssertEqual(y, 20, "Should be called twice every update")
 
         x.afterChange -= obs // this should remove once only...
         
-        for i in 0..10 { x <- i }
+        for i in 0..<10 { x <- i }
         XCTAssertEqual(y, 30, "Should be called once after removal")
         
         x.afterChange -= obs // this should remove the second ocurrence
         
-        for i in 0..10 { x <- i }
+        for i in 0..<10 { x <- i }
         XCTAssertEqual(y, 30, "Should not be called after removal")
     }
     
@@ -341,7 +341,7 @@ class ObservableTests: XCTestCase {
         var x = Observable(0)
         var y = 0
         
-        for _ in 0..1 {
+        for _ in 0..<1 {
             let owner = NSObject()
             x.afterChange.add(owner: owner) { c in y = c.newValue }
             x <- 12
@@ -357,13 +357,13 @@ class ObservableTests: XCTestCase {
         
         var y = 0
         
-        for _ in 0..1 {
+        for _ in 0..<1 {
             let xr = proxy(x)
             xr.afterChange += { (_,_) in y += 1 }
-            for i in 0..5 { x <- i }
+            for i in 0..<5 { x <- i }
         }
         
-        for i in 0..5 { x <- i }
+        for i in 0..<5 { x <- i }
         
         XCTAssertEqual(y, 5, "Should increment only when proxy is alive")
     }
@@ -375,15 +375,15 @@ class ObservableTests: XCTestCase {
         var xr = proxy(x)
         xr.afterChange += { (_,_) in y += 1 }
 
-        for i in 0..5 { x <- i }
+        for i in 0..<5 { x <- i }
         
         var z = x
         
         x = Observable(0)
         
-        for i in 0..5 { x <- i }
+        for i in 0..<5 { x <- i }
 
-        for i in 0..2 { z <- i }
+        for i in 0..<2 { z <- i }
 
         XCTAssertEqual(y, 7, "Should increment for refered object or a value-copy")
     }
@@ -412,6 +412,41 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(y, 2, "Should be called for both x and z")
 
         // this actually makes observers not shared
+        z.unshare(removeSubscriptions: false)
+        
+        z <- 30
+        x <- 40
+        
+        XCTAssertEqual(z.value, 30)
+        XCTAssertEqual(x.value, 40)
+        
+        XCTAssertEqual(y, 4, "Should still be called for both")
+     
+        x.afterChange += { (_,_) in y += 1 }
+        
+        z <- 50
+        x <- 60
+
+        XCTAssertEqual(y, 7, "Should now be called 3 times")
+        
+    }
+
+    func testCopyObserversSemanticsWithRemove() {
+        var x = Observable(0)
+        var y = 0
+        x.afterChange += { (_,_) in y += 1 }
+        var z = x
+        
+        z <- 10
+        x <- 20
+        
+        XCTAssertEqual(z.value, 10)
+        XCTAssertEqual(x.value, 20)
+        
+        // well... this is kind of unfortunate, but expected since x was copied
+        XCTAssertEqual(y, 2, "Should be called for both x and z")
+
+        // this actually makes observers not shared
         z.unshare(removeSubscriptions: true)
         
         z <- 30
@@ -420,7 +455,7 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(z.value, 30)
         XCTAssertEqual(x.value, 40)
         
-        XCTAssertEqual(y, 3, "Should be called for both x only")
+        XCTAssertEqual(y, 3, "Should be called for x only")
         
     }
     
@@ -522,7 +557,7 @@ class ObservableTests: XCTestCase {
         var afterTimes = 0
         var test = Observable(Test())
         
-        for _ in 0..1 {
+        for _ in 0..<1 {
             let o = NSObject()
             chain(test).to{$0.test}.afterChange.add(owner: o) { _ in afterTimes += 1 }
             
@@ -550,7 +585,7 @@ class ObservableTests: XCTestCase {
         weak var proxy : ObservableChainingProxy<Observable<Test>, Observable<Int>>? = nil
         weak var event : EventReference<ValueChange<Int?>>? = nil
         
-        for _ in 0..1 {
+        for _ in 0..<1 {
             let strongProxy = chain(test).to{$0.test}
             proxy = strongProxy
             

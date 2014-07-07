@@ -27,7 +27,7 @@ class EventSubscription<T> {
     var handler : HandlerType
     
     /// @protected array of owned objects
-    var _owned = AnyObject[]()
+    var _owned = [AnyObject]()
     
     /// When invalid subscription is to be notified, it is removed instead.
     func valid() -> Bool {
@@ -49,10 +49,10 @@ class EventSubscription<T> {
     /// Init with a handler and an optional owner.
     /// If owner is present, valid() is tied to its lifetime.
     init(owner o: AnyObject?, handler h: HandlerType) {
-        if o == nil {
+        if !o {
             _valid = { true }
         } else {
-            _valid = { [weak o] in o != nil }
+            _valid = { [weak o] in o.getLogicValue() }
         }
         handler = h
     }

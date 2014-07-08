@@ -27,10 +27,12 @@ class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
         return value
     }
     
-    var dependent : (AnyObject?, AnyObject?)
+    let _base1 : O1
+    let _base2 : O2
     
-    init (_ o1: O1, _ o2: O2, dependent: (AnyObject?, AnyObject?) = (nil, nil)) {
-        self.dependent = dependent
+    init (_ o1: O1, _ o2: O2) {
+        _base1 = o1
+        _base2 = o2
         first = o1.value
         second = o2.value
         o1.beforeChange.add(owner: self) { [weak self] c1 in
@@ -63,24 +65,8 @@ class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
         }
     }
 
-    func ownableSelf() -> AnyObject {
-        return self
-    }
-    
 }
 
-@infix func & <O1 : UnownableObservable, O2: OwnableObservable> (x: O1, y: O2) -> PairObservable<O1, O2> {
-    return PairObservable(x, y, dependent: (nil, y.ownableSelf()))
-}
-
-@infix func & <O1 : OwnableObservable, O2: UnownableObservable> (x: O1, y: O2) -> PairObservable<O1, O2> {
-    return PairObservable(x, y, dependent: (x.ownableSelf(), nil))
-}
-
-@infix func & <O1 : OwnableObservable, O2: OwnableObservable> (x: O1, y: O2) -> PairObservable<O1, O2> {
-    return PairObservable(x, y, dependent: (x.ownableSelf(), y.ownableSelf()))
-}
-
-@infix func & <O1 : UnownableObservable, O2: UnownableObservable> (x: O1, y: O2) -> PairObservable<O1, O2> {
+@infix func & <O1 : AnyObservable, O2: AnyObservable> (x: O1, y: O2) -> PairObservable<O1, O2> {
     return PairObservable(x, y)
 }

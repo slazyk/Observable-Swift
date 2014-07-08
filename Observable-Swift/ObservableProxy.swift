@@ -33,10 +33,6 @@ class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : OwnableObser
         }
     }
     
-    func ownableSelf() -> AnyObject {
-        return self
-    }
-    
 }
 
 func proxy <O: AnyObservable> (o: O) -> ObservableProxy<O.ValueType, O> {

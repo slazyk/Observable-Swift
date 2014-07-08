@@ -72,7 +72,7 @@ protocol UnownableObservable : WritableObservable {
 
 /// Observable which is a reference type. Compound observables are reference types.
 protocol OwnableObservable : AnyObservable {
-    func ownableSelf() -> AnyObject
+
 }
 
 // observable <- value

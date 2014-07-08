@@ -12,10 +12,6 @@ class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: OwnableObse
     
     var value : ValueType { get { return nil } }
     
-    func ownableSelf() -> AnyObject {
-        return self;
-    }
-    
     @conversion func __conversion () -> ValueType {
         return nil
     }

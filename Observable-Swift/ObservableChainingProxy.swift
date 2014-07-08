@@ -20,35 +20,35 @@ class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: OwnableObse
         return nil
     }
     
-    var _beforeChange : () -> EventReference<ValueChange<ValueType>>? = { nil }
-    var _afterChange : () -> EventReference<ValueChange<ValueType>>? = { nil }
+    weak var _beforeChange : EventReference<ValueChange<ValueType>>? = nil
+    weak var _afterChange : EventReference<ValueChange<ValueType>>? = nil
     
     var beforeChange : EventReference<ValueChange<ValueType>> {
-        if let event = _beforeChange() {
+        if let event = _beforeChange {
             return event
         } else {
             let event = OwningEventReference<ValueChange<ValueType>>()
-            event.owned = { self }
-            _beforeChange = { [weak event] in event }
+            event.owned = self
+            _beforeChange = event
             return event
         }
     }
     
     var afterChange : EventReference<ValueChange<ValueType>> {
-        if let event = _afterChange() {
+        if let event = _afterChange {
             return event
         } else {
             let event = OwningEventReference<ValueChange<ValueType>>()
-            event.owned = { self }
-            _afterChange = { [weak event] in event }
+            event.owned = self
+            _afterChange = event
             return event
         }
     }
     
-    let _base: () -> O1
+    let base: O1
 
     init(base: O1, path: O1.ValueType -> O2?) {
-        _base = { base }
+        self.base = base
 
         func targetChangeToValueChange(vc: ValueChange<O2.ValueType>) -> ValueChange<ValueType> {
             let oldValue = Optional.Some(vc.oldValue)

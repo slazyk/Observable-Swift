@@ -15,24 +15,20 @@ class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : OwnableObser
     var beforeChange = EventReference<ValueChange<T>>()
     var afterChange = EventReference<ValueChange<T>>()
     
-    var value : ValueType {
-    get { return _value() }
-    }
-    
-    var _value : () -> T
+    var value : T
     
     @conversion func __conversion () -> T {
         return value
     }
     
     init (_ o : O) {
-        self._value = { o.value }
+        self.value = o.value
         o.beforeChange.add(owner: self) { [weak self] change in
             self!.beforeChange.notify(change)
         }
         o.afterChange.add(owner: self) { [weak self] change in
             let nV = change.newValue
-            self!._value = { nV }
+            self!.value = nV
             self!.afterChange.notify(change)
         }
     }

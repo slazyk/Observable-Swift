@@ -27,13 +27,8 @@ struct Observable<T> : UnownableObservable {
     var afterChange = EventReference<ValueChange<T>>()
     
     var value : T {
-    get { return _value() }
-    set { _value = { newValue } }
-    }
-    
-    var _value : () -> T {
-    willSet { beforeChange.notify(ValueChange(_value(), newValue())) }
-    didSet { afterChange.notify(ValueChange(oldValue(), _value())) }
+    willSet { beforeChange.notify(ValueChange(value, newValue)) }
+    didSet { afterChange.notify(ValueChange(oldValue, value)) }
     }
     
     @conversion func __conversion () -> T {
@@ -53,6 +48,6 @@ struct Observable<T> : UnownableObservable {
     }
 
     init(_ v : T) {
-        _value = { v }
+        value = v
     }
 }

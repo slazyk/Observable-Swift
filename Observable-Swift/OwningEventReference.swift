@@ -11,11 +11,11 @@
 /// This retain cycle allows owned objects to live as long as valid subscriptions exist.
 class OwningEventReference<T>: EventReference<T> {
     
-    var owned: () -> AnyObject? = { nil }
+    var owned: AnyObject? = nil
 
     override func add(subscription: SubscriptionType) -> SubscriptionType {
         let subscr = super.add(subscription)
-        if owned() {
+        if owned {
             subscr.addOwnedObject(self)
         }
         return subscr
@@ -23,7 +23,7 @@ class OwningEventReference<T>: EventReference<T> {
     
     override func add(handler : T -> ()) -> EventSubscription<T> {
         let subscr = super.add(handler)
-        if owned() {
+        if owned {
             subscr.addOwnedObject(self)
         }
         return subscr
@@ -43,7 +43,7 @@ class OwningEventReference<T>: EventReference<T> {
     
     override func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
         let subscr = event.add(owner: owner, handler)
-        if owned() {
+        if owned {
             subscr.addOwnedObject(self)
         }
         return subscr

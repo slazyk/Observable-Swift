@@ -17,20 +17,20 @@
 // Invalidation immediately frees handler and owned objects.
 
 /// A class representing a subscription for `Event<T>`.
-class EventSubscription<T> {
+public class EventSubscription<T> {
     
-    typealias HandlerType = T -> ()
+    public typealias HandlerType = T -> ()
     
-    var _valid : () -> Bool
+    internal var _valid : () -> Bool
     
     /// Handler to be caled when value changes.
-    var handler : HandlerType
+    internal var handler : HandlerType
     
-    /// @protected array of owned objects
-    var _owned = [AnyObject]()
+    /// array of owned objects
+    internal var _owned = [AnyObject]()
     
     /// When invalid subscription is to be notified, it is removed instead.
-    func valid() -> Bool {
+    public func valid() -> Bool {
         if !_valid() {
             invalidate()
             return false
@@ -40,7 +40,7 @@ class EventSubscription<T> {
     }
     
     /// Marks the event for removal, frees the handler and owned objects
-    func invalidate() {
+    public func invalidate() {
         _valid = { false }
         handler = { _ in () }
         _owned = []
@@ -48,7 +48,7 @@ class EventSubscription<T> {
     
     /// Init with a handler and an optional owner.
     /// If owner is present, valid() is tied to its lifetime.
-    init(owner o: AnyObject?, handler h: HandlerType) {
+    public init(owner o: AnyObject?, handler h: HandlerType) {
         if !o {
             _valid = { true }
         } else {
@@ -58,12 +58,12 @@ class EventSubscription<T> {
     }
     
     /// Add an object to be owned while the event is not invalidated
-    func addOwnedObject(o: AnyObject) {
+    public func addOwnedObject(o: AnyObject) {
         _owned += o
     }
     
     /// Remove object from owned objects
-    func removeOwnedObject(o: AnyObject) {
+    public func removeOwnedObject(o: AnyObject) {
         _owned = _owned.filter{ $0 !== o }
     }
 }

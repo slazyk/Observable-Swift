@@ -9,11 +9,11 @@
 /// A subclass of event reference allowing it to own other object[s].
 /// Additionally, the reference makes added events own itself.
 /// This retain cycle allows owned objects to live as long as valid subscriptions exist.
-class OwningEventReference<T>: EventReference<T> {
+public class OwningEventReference<T>: EventReference<T> {
     
-    var owned: AnyObject? = nil
+    internal var owned: AnyObject? = nil
 
-    override func add(subscription: SubscriptionType) -> SubscriptionType {
+    public override func add(subscription: SubscriptionType) -> SubscriptionType {
         let subscr = super.add(subscription)
         if owned {
             subscr.addOwnedObject(self)
@@ -21,7 +21,7 @@ class OwningEventReference<T>: EventReference<T> {
         return subscr
     }
     
-    override func add(handler : T -> ()) -> EventSubscription<T> {
+    public override func add(handler : T -> ()) -> EventSubscription<T> {
         let subscr = super.add(handler)
         if owned {
             subscr.addOwnedObject(self)
@@ -29,19 +29,19 @@ class OwningEventReference<T>: EventReference<T> {
         return subscr
     }
     
-    override func remove(subscription : SubscriptionType) {
+    public override func remove(subscription : SubscriptionType) {
         subscription.removeOwnedObject(self)
         return event.remove(subscription)
     }
     
-    override func removeAll() {
+    public override func removeAll() {
         for subscription in event._subscriptions {
             subscription.removeOwnedObject(self)
         }
         event.removeAll()
     }
     
-    override func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
+    public override func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
         let subscr = event.add(owner: owner, handler)
         if owned {
             subscr.addOwnedObject(self)
@@ -49,7 +49,7 @@ class OwningEventReference<T>: EventReference<T> {
         return subscr
     }
 
-    init(event: Event<T>) {
+    public init(event: Event<T>) {
         super.init(event: event)
     }
     

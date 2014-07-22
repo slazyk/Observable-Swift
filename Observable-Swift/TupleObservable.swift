@@ -6,31 +6,29 @@
 //  Copyright (c) 2014 Leszek Ślażyński. All rights reserved.
 //
 
-class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
+public class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
     
-    typealias T1 = O1.ValueType
-    typealias T2 = O2.ValueType
+    internal typealias T1 = O1.ValueType
+    internal typealias T2 = O2.ValueType
     
-    typealias ValueType = (T1, T2)
+    public typealias ValueType = (T1, T2)
     
-    var beforeChange = EventReference<ValueChange<(T1, T2)>>()
-    var afterChange = EventReference<ValueChange<(T1, T2)>>()
+    public /*internal(set)*/ var beforeChange = EventReference<ValueChange<(T1, T2)>>()
+    public /*internal(set)*/ var afterChange = EventReference<ValueChange<(T1, T2)>>()
     
-    var first : T1
-    var second : T2
+    internal var first : T1
+    internal var second : T2
     
-    var value : (T1, T2) {
-    get { return (first, second) }
-    }
+    public var value : (T1, T2) { return (first, second) }
     
-    @conversion func __conversion() -> (T1, T2) {
+    public func __conversion() -> (T1, T2) {
         return value
     }
     
-    let _base1 : O1
-    let _base2 : O2
+    internal let _base1 : O1
+    internal let _base2 : O2
     
-    init (_ o1: O1, _ o2: O2) {
+    public init (_ o1: O1, _ o2: O2) {
         _base1 = o1
         _base2 = o2
         first = o1.value
@@ -67,6 +65,7 @@ class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
 
 }
 
-@infix func & <O1 : AnyObservable, O2: AnyObservable> (x: O1, y: O2) -> PairObservable<O1, O2> {
+@infix
+public func & <O1 : AnyObservable, O2: AnyObservable> (x: O1, y: O2) -> PairObservable<O1, O2> {
     return PairObservable(x, y)
 }

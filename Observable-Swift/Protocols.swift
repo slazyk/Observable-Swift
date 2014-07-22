@@ -7,7 +7,7 @@
 //
 
 /// Arbitrary Event.
-protocol AnyEvent {
+public protocol AnyEvent {
     
     typealias ValueType
     
@@ -32,17 +32,17 @@ protocol AnyEvent {
 }
 
 /// Event which is a value type.
-protocol UnownableEvent: AnyEvent {
+public protocol UnownableEvent: AnyEvent {
 
 }
 
 /// Event which is a reference type
-protocol OwnableEvent: AnyEvent {
+public protocol OwnableEvent: AnyEvent {
 
 }
 
 /// Arbitrary observable.
-protocol AnyObservable {
+public protocol AnyObservable {
     
     typealias ValueType
     
@@ -60,72 +60,82 @@ protocol AnyObservable {
 }
 
 /// Observable which can be written to
-protocol WritableObservable : AnyObservable {
+public protocol WritableObservable : AnyObservable {
     var value : ValueType { get set }
 }
 
 /// Observable which is a value type. Elementary observables are value types.
-protocol UnownableObservable : WritableObservable {
+public protocol UnownableObservable : WritableObservable {
     /// Unshares events
     mutating func unshare(#removeSubscriptions: Bool)
 }
 
 /// Observable which is a reference type. Compound observables are reference types.
-protocol OwnableObservable : AnyObservable {
+public protocol OwnableObservable : AnyObservable {
 
 }
 
 // observable <- value
-operator infix <- { }
+public operator infix <- { }
 
 // value = observable^
-operator postfix ^ { }
+public operator postfix ^ { }
 
 // observable ^= value
-@assignment func ^= <T : WritableObservable> (inout x: T, y: T.ValueType) {
+@assignment
+public func ^= <T : WritableObservable> (inout x: T, y: T.ValueType) {
     x.value = y
 }
 
 // observable += { valuechange in ... }
-@infix func += <T : AnyObservable> (inout x: T, y: ValueChange<T.ValueType> -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
+@infix
+public func += <T : AnyObservable> (inout x: T, y: ValueChange<T.ValueType> -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable += { (old, new) in ... }
-@infix func += <T : AnyObservable> (inout x: T, y: (T.ValueType, T.ValueType) -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
+@infix
+public func += <T : AnyObservable> (inout x: T, y: (T.ValueType, T.ValueType) -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable += { new in ... }
-@infix func += <T : AnyObservable> (inout x: T, y: T.ValueType -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
+@infix
+public func += <T : AnyObservable> (inout x: T, y: T.ValueType -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable -= subscription
-@infix func -= <T : AnyObservable> (inout x: T, s: EventSubscription<ValueChange<T.ValueType>>) {
+@infix
+public func -= <T : AnyObservable> (inout x: T, s: EventSubscription<ValueChange<T.ValueType>>) {
     x.afterChange.remove(s)
 }
 
 // event += { (old, new) in ... }
-@infix func += <T> (event: EventReference<ValueChange<T>>, handler: (T, T) -> ()) -> EventSubscription<ValueChange<T>> {
+@infix
+public func += <T> (event: EventReference<ValueChange<T>>, handler: (T, T) -> ()) -> EventSubscription<ValueChange<T>> {
     return event.add({ handler($0.oldValue, $0.newValue) })
 }
 
 // event += { new in ... }
-@infix func += <T> (event: EventReference<ValueChange<T>>, handler: T -> ()) -> EventSubscription<ValueChange<T>> {
+@infix
+public func += <T> (event: EventReference<ValueChange<T>>, handler: T -> ()) -> EventSubscription<ValueChange<T>> {
     return event.add({ handler($0.newValue) })
 }
 
 // for observable values on variables
-@infix func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x: T, y: T.ValueType) {
+@infix
+public func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x: T, y: T.ValueType) {
     x.value = y
 }
 
 // for observable references on variables or constants
-func <- <T : protocol<WritableObservable, OwnableObservable>> (var x: T, y: T.ValueType) {
+@infix
+public func <- <T : protocol<WritableObservable, OwnableObservable>> (var x: T, y: T.ValueType) {
     x.value = y
 }
 
-@postfix func ^ <T : AnyObservable> (x: T) -> T.ValueType {
+@postfix
+public func ^ <T : AnyObservable> (x: T) -> T.ValueType {
     return x.value
 }

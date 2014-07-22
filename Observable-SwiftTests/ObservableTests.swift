@@ -63,7 +63,7 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(t, 2, "Should receive correct new value")
     }
     
-    // Apple engineers said @conversion and __conversion are impl details :(
+    // Apple engineers said and __conversion are impl details :(
     func testConversions() {
         var x = Observable(22)
         var y = Observable(20)
@@ -75,8 +75,9 @@ class ObservableTests: XCTestCase {
         let sum2 = x as Int + y
         XCTAssertEqual(sum2, 42, "Should sum up correctly")
         
-        let sum3 : Int = x + y
-        XCTAssertEqual(sum3, 42, "Should sum up correctly")
+        // does not compile in Beta 4: Observable<Int> not convertible to UInt8
+//        let sum3 : Int = x + y
+//        XCTAssertEqual(sum3, 42, "Should sum up correctly")
     }
 
     func testMultipleHandlers() {
@@ -560,7 +561,7 @@ class ObservableTests: XCTestCase {
         for _ in 0..<1 {
             let o = NSObject()
             chain(test).to{$0.test}.afterChange.add(owner: o) { _ in afterTimes += 1 }
-            
+                        
             test.value.test <- 1
             XCTAssertEqual(afterTimes, 1)
             
@@ -606,5 +607,4 @@ class ObservableTests: XCTestCase {
         XCTAssertNil(proxy)
         
     }
-    
 }

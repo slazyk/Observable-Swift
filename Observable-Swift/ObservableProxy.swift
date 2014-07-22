@@ -8,20 +8,20 @@
 
 // two generic parameters are needed to be able to override `value` in `ObservableReference<T>`
 
-class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : OwnableObservable {
+public class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : OwnableObservable {
     
-    typealias ValueType = T
+    public typealias ValueType = T
     
-    var beforeChange = EventReference<ValueChange<T>>()
-    var afterChange = EventReference<ValueChange<T>>()
+    public /*internal(set)*/ var beforeChange = EventReference<ValueChange<T>>()
+    public /*internal(set)*/ var afterChange = EventReference<ValueChange<T>>()
     
-    var value : T
+    public internal(set) var value : T
     
-    @conversion func __conversion () -> T {
+    public func __conversion () -> T {
         return value
     }
     
-    init (_ o : O) {
+    public init (_ o : O) {
         self.value = o.value
         o.beforeChange.add(owner: self) { [weak self] change in
             self!.beforeChange.notify(change)
@@ -35,6 +35,6 @@ class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : OwnableObser
     
 }
 
-func proxy <O: AnyObservable> (o: O) -> ObservableProxy<O.ValueType, O> {
+public func proxy <O: AnyObservable> (o: O) -> ObservableProxy<O.ValueType, O> {
     return ObservableProxy(o)
 }

@@ -7,10 +7,10 @@
 //
 
 /// A struct representing information associated with value change event.
-struct ValueChange<T> {
-    let oldValue: T
-    let newValue: T
-    init(_ o: T, _ n: T) {
+public struct ValueChange<T> {
+    public let oldValue: T
+    public let newValue: T
+    public init(_ o: T, _ n: T) {
         oldValue = o
         newValue = n
     }
@@ -19,23 +19,23 @@ struct ValueChange<T> {
 // Implemented as a struct in order to have desired value and mutability sementics.
 
 /// A struct representing an observable value.
-struct Observable<T> : UnownableObservable {
+public struct Observable<T> : UnownableObservable {
     
-    typealias ValueType = T
+    public typealias ValueType = T
 
-    var beforeChange = EventReference<ValueChange<T>>()
-    var afterChange = EventReference<ValueChange<T>>()
+    public /*internal(set)*/ var beforeChange = EventReference<ValueChange<T>>()
+    public /*internal(set)*/ var afterChange = EventReference<ValueChange<T>>()
     
-    var value : T {
+    public var value : T {
     willSet { beforeChange.notify(ValueChange(value, newValue)) }
     didSet { afterChange.notify(ValueChange(oldValue, value)) }
     }
     
-    @conversion func __conversion () -> T {
+    public func __conversion () -> T {
         return value
     }
     
-    mutating func unshare(#removeSubscriptions: Bool) {
+    public mutating func unshare(#removeSubscriptions: Bool) {
         if removeSubscriptions {
             beforeChange = EventReference<ValueChange<T>>()
             afterChange = EventReference<ValueChange<T>>()
@@ -47,7 +47,7 @@ struct Observable<T> : UnownableObservable {
         }
     }
 
-    init(_ v : T) {
+    public init(_ v : T) {
         value = v
     }
 }

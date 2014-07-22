@@ -4,7 +4,7 @@ Swift lacks the powerful Key Value Observing (KVO) from Objective-C. But thanks 
 
 ## Overview
 
-Observable-Swift is a Swift library for value observing (via explicit usage of `Observable<T>`) and subscribable events (also explicit, using `Event<T>`). The library is still under development, just as Swift is. Any contributions, both in terms of suggestions/ideas or actual code are welcome.
+Observable-Swift is a Swift library for value observing (via explicit usage of `Observable<T>`) and subscribable events (also explicit, using `Event<T>`). While it is not exactly "KVO for Swift" (it is explicit, there are no "Keys", ...) it is a catchy name so you can call it that if you want. The library is still under development, just as Swift is. Any contributions, both in terms of suggestions/ideas or actual code are welcome.
 
 Observable-Swift is brought to you by Leszek Ślażyński (slazyk), you can follow me on [twitter](https://twitter.com/slazyk) and [github](https://github.com/slazyk). 
 Also check out [SINQ](https://github.com/slazyk/SINQ) my other Swift library that makes working with collections a breeze.
@@ -35,7 +35,7 @@ Under the hood `Observable<T>` uses `beforeChange` and `afterChange` of `EventRe
 
 ## Installation
 
-As of writing, Xcode 6 beta 3 does not support Swift static libraries, and CocoaPods 0.33.1 does not support Frameworks...
+As of writing, Xcode 6 beta 4 does not support Swift static libraries, and CocoaPods 0.33.1 does not support Frameworks...
 
 Easiest option to use Observable-Swift in your project is to clone this repo and add Observable-Swift.xcodeproj to your project/workspace and then add Observable.framework to frameworks for your target.
 

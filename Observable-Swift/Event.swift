@@ -26,7 +26,7 @@ public struct Event<T>: UnownableEvent {
     }
     
     public mutating func add(subscription: SubscriptionType) -> SubscriptionType {
-        _subscriptions += subscription
+        _subscriptions.append(subscription)
         return subscription
     }
     
@@ -41,7 +41,7 @@ public struct Event<T>: UnownableEvent {
             if first && existing === subscription {
                 first = false
             } else {
-                newsubscriptions += existing
+                newsubscriptions.append(existing)
             }
         }
         _subscriptions = newsubscriptions
@@ -61,22 +61,18 @@ public struct Event<T>: UnownableEvent {
     
 }
 
-@assignment
 public func += <T: UnownableEvent> (inout event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
     return event.add(handler)
 }
 
-@infix
 public func += <T: OwnableEvent> (var event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
     return event.add(handler)
 }
 
-@assignment
 public  func -= <T: UnownableEvent> (inout event: T, subscription: EventSubscription<T.ValueType>) {
     return event.remove(subscription)
 }
 
-@infix
 public func -= <T: OwnableEvent> (var event: T, subscription: EventSubscription<T.ValueType>) {
     return event.remove(subscription)
 }

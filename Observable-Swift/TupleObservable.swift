@@ -65,7 +65,6 @@ public class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObser
 
 }
 
-@infix
 public func & <O1 : AnyObservable, O2: AnyObservable> (x: O1, y: O2) -> PairObservable<O1, O2> {
     return PairObservable(x, y)
 }

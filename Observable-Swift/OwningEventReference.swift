@@ -15,7 +15,7 @@ public class OwningEventReference<T>: EventReference<T> {
 
     public override func add(subscription: SubscriptionType) -> SubscriptionType {
         let subscr = super.add(subscription)
-        if owned {
+        if owned != nil {
             subscr.addOwnedObject(self)
         }
         return subscr
@@ -23,7 +23,7 @@ public class OwningEventReference<T>: EventReference<T> {
     
     public override func add(handler : T -> ()) -> EventSubscription<T> {
         let subscr = super.add(handler)
-        if owned {
+        if owned != nil {
             subscr.addOwnedObject(self)
         }
         return subscr
@@ -43,13 +43,13 @@ public class OwningEventReference<T>: EventReference<T> {
     
     public override func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
         let subscr = event.add(owner: owner, handler)
-        if owned {
+        if owned != nil {
             subscr.addOwnedObject(self)
         }
         return subscr
     }
 
-    public init(event: Event<T>) {
+    public override init(event: Event<T>) {
         super.init(event: event)
     }
     

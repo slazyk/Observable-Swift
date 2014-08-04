@@ -35,7 +35,7 @@ Under the hood `Observable<T>` uses `beforeChange` and `afterChange` of `EventRe
 
 ## Installation
 
-As of writing, Xcode 6 beta 4 does not support Swift static libraries, and CocoaPods 0.33.1 does not support Frameworks...
+As of writing, Xcode 6 beta 5 does not support Swift static libraries, and CocoaPods 0.33.1 does not support Frameworks...
 
 Easiest option to use Observable-Swift in your project is to clone this repo and add Observable-Swift.xcodeproj to your project/workspace and then add Observable.framework to frameworks for your target.
 

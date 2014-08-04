@@ -72,12 +72,17 @@ class ObservableTests: XCTestCase {
         let sum1 = 0 + x + y
         XCTAssertEqual(sum1, 42, "Should sum up correctly")
 
-        let sum2 = x as Int + y
-        XCTAssertEqual(sum2, 42, "Should sum up correctly")
+        // does not compile in Beta 5: Int is not convertivle to UInt8
+//        let sum2 = (x as Int) + y
+//        XCTAssertEqual(sum2, 42, "Should sum up correctly")
         
         // does not compile in Beta 4: Observable<Int> not convertible to UInt8
 //        let sum3 : Int = x + y
 //        XCTAssertEqual(sum3, 42, "Should sum up correctly")
+        
+        let sum4 = x^ + y^
+        XCTAssertEqual(sum4, 42, "Should sum up correctly")
+        
     }
 
     func testMultipleHandlers() {

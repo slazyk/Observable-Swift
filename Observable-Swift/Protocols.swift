@@ -76,66 +76,56 @@ public protocol OwnableObservable : AnyObservable {
 }
 
 // observable <- value
-public operator infix <- { }
+infix operator <- { }
 
 // value = observable^
-public operator postfix ^ { }
+postfix operator ^ { }
 
 // observable ^= value
-@assignment
 public func ^= <T : WritableObservable> (inout x: T, y: T.ValueType) {
     x.value = y
 }
 
 // observable += { valuechange in ... }
-@infix
 public func += <T : AnyObservable> (inout x: T, y: ValueChange<T.ValueType> -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable += { (old, new) in ... }
-@infix
 public func += <T : AnyObservable> (inout x: T, y: (T.ValueType, T.ValueType) -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable += { new in ... }
-@infix
 public func += <T : AnyObservable> (inout x: T, y: T.ValueType -> ()) -> EventSubscription<ValueChange<T.ValueType>> {
     return x.afterChange += y
 }
 
 // observable -= subscription
-@infix
 public func -= <T : AnyObservable> (inout x: T, s: EventSubscription<ValueChange<T.ValueType>>) {
     x.afterChange.remove(s)
 }
 
 // event += { (old, new) in ... }
-@infix
 public func += <T> (event: EventReference<ValueChange<T>>, handler: (T, T) -> ()) -> EventSubscription<ValueChange<T>> {
     return event.add({ handler($0.oldValue, $0.newValue) })
 }
 
 // event += { new in ... }
-@infix
 public func += <T> (event: EventReference<ValueChange<T>>, handler: T -> ()) -> EventSubscription<ValueChange<T>> {
     return event.add({ handler($0.newValue) })
 }
 
 // for observable values on variables
-@infix
 public func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x: T, y: T.ValueType) {
     x.value = y
 }
 
 // for observable references on variables or constants
-@infix
 public func <- <T : protocol<WritableObservable, OwnableObservable>> (var x: T, y: T.ValueType) {
     x.value = y
 }
 
-@postfix
-public func ^ <T : AnyObservable> (x: T) -> T.ValueType {
+public postfix func ^ <T : AnyObservable> (x: T) -> T.ValueType {
     return x.value
 }

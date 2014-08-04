@@ -49,17 +49,17 @@ public class EventSubscription<T> {
     /// Init with a handler and an optional owner.
     /// If owner is present, valid() is tied to its lifetime.
     public init(owner o: AnyObject?, handler h: HandlerType) {
-        if !o {
+        if o == nil {
             _valid = { true }
         } else {
-            _valid = { [weak o] in o.getLogicValue() }
+            _valid = { [weak o] in o != nil }
         }
         handler = h
     }
     
     /// Add an object to be owned while the event is not invalidated
     public func addOwnedObject(o: AnyObject) {
-        _owned += o
+        _owned.append(o)
     }
     
     /// Remove object from owned objects

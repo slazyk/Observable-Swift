@@ -84,7 +84,6 @@ let  y2 = x^ + 22
 /// ... which has the advantage of easy chaining
 let y3 = obj.property^.whatever^.sthElse^
 /// ... you can also use ^= instead of <- for consistency with the postfix ^
-
 ```
 
 For value types (such as `structs` or `tuples`) you can also observe their mutations:  

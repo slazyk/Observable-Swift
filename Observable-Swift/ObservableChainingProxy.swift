@@ -38,39 +38,41 @@ public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: Owna
     }
     
     internal let base: O1
-
+    internal let path: O1.ValueType -> O2?
+    
+    private func targetChangeToValueChange(vc: ValueChange<O2.ValueType>) -> ValueChange<ValueType> {
+        let oldValue = Optional.Some(vc.oldValue)
+        let newValue = Optional.Some(vc.newValue)
+        return ValueChange(oldValue, newValue)
+    }
+        
+    private func objectChangeToValueChange(oc: ValueChange<O1.ValueType>) -> ValueChange<ValueType> {
+        let oldValue = path(oc.oldValue)?.value
+        let newValue = path(oc.newValue)?.value
+        return ValueChange(oldValue, newValue)
+    }
+    
     init(base: O1, path: O1.ValueType -> O2?) {
         self.base = base
+        self.path = path
 
-        func targetChangeToValueChange(vc: ValueChange<O2.ValueType>) -> ValueChange<ValueType> {
-            let oldValue = Optional.Some(vc.oldValue)
-            let newValue = Optional.Some(vc.newValue)
-            return ValueChange(oldValue, newValue)
-        }
-        
-        func objectChangeToValueChange(oc: ValueChange<O1.ValueType>) -> ValueChange<ValueType> {
-            let oldValue = path(oc.oldValue)?.value
-            let newValue = path(oc.newValue)?.value
-            return ValueChange(oldValue, newValue)
-        }
-        
         var beforeSubscription = EventSubscription(owner: self) { [weak self] in
-            self!.beforeChange.notify(targetChangeToValueChange($0))
+            self!.beforeChange.notify(self!.targetChangeToValueChange($0))
         }
         
         var afterSubscription = EventSubscription(owner: self) { [weak self] in
-            self!.afterChange.notify(targetChangeToValueChange($0))
+            self!.afterChange.notify(self!.targetChangeToValueChange($0))
         }
         
         base.beforeChange.add(owner: self) { [weak self] oc in
             let oldTarget = path(oc.oldValue)
             oldTarget?.beforeChange.remove(beforeSubscription)
             oldTarget?.afterChange.remove(afterSubscription)
-            self!.beforeChange.notify(objectChangeToValueChange(oc))
+            self!.beforeChange.notify(self!.objectChangeToValueChange(oc))
         }
         
         base.afterChange.add(owner: self) { [weak self] oc in
-            self!.afterChange.notify(objectChangeToValueChange(oc))
+            self!.afterChange.notify(self!.objectChangeToValueChange(oc))
             let newTarget = path(oc.newValue)
             newTarget?.beforeChange.add(beforeSubscription)
             newTarget?.afterChange.add(afterSubscription)

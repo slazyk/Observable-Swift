@@ -31,10 +31,6 @@ public struct Observable<T> : UnownableObservable {
     didSet { afterChange.notify(ValueChange(oldValue, value)) }
     }
     
-    public func __conversion () -> T {
-        return value
-    }
-    
     public mutating func unshare(#removeSubscriptions: Bool) {
         if removeSubscriptions {
             beforeChange = EventReference<ValueChange<T>>()

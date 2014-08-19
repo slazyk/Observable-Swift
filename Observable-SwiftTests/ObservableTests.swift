@@ -63,28 +63,6 @@ class ObservableTests: XCTestCase {
         XCTAssertEqual(t, 2, "Should receive correct new value")
     }
     
-    // Apple engineers said and __conversion are impl details :(
-    func testConversions() {
-        var x = Observable(22)
-        var y = Observable(20)
-        
-        // 0 is needed here to infer int
-        let sum1 = 0 + x + y
-        XCTAssertEqual(sum1, 42, "Should sum up correctly")
-
-        // does not compile in Beta 5: Int is not convertivle to UInt8
-//        let sum2 = (x as Int) + y
-//        XCTAssertEqual(sum2, 42, "Should sum up correctly")
-        
-        // does not compile in Beta 4: Observable<Int> not convertible to UInt8
-//        let sum3 : Int = x + y
-//        XCTAssertEqual(sum3, 42, "Should sum up correctly")
-        
-        let sum4 = x^ + y^
-        XCTAssertEqual(sum4, 42, "Should sum up correctly")
-        
-    }
-
     func testMultipleHandlers() {
         var x = Observable(0)
         var a = -1
@@ -115,12 +93,12 @@ class ObservableTests: XCTestCase {
         var y = -1
         let s = x += { y = $0 }
         x <- 124
-        XCTAssertEqual(y, x, "Should add observer with shorthand")
+        XCTAssertEqual(y, x^, "Should add observer with shorthand")
         
         x.beforeChange += { (_,_) in y = -1 }
         
         x <- 42
-        XCTAssertEqual(y, x, "Should add to afterChange")
+        XCTAssertEqual(y, x^, "Should add to afterChange")
         
         x -= s
         x <- 18
@@ -202,7 +180,7 @@ class ObservableTests: XCTestCase {
         let either = first & last
         
         let getFull = { "\($0 as String) \($1 as String)" }
-        var full = getFull(first, last)
+        var full = getFull(first^, last^)
         
         either.afterChange += { full = getFull($0, $1) }
         
@@ -222,7 +200,7 @@ class ObservableTests: XCTestCase {
         var either3 = title & first & last
         
         let getFull = { "\($0 as String) \($1 as String) \($2 as String)" }
-        var full = getFull(title, first, last)
+        var full = getFull(title^, first^, last^)
 
         either3.afterChange += { full = getFull($0.0, $0.1, $1) }
         
@@ -235,13 +213,13 @@ class ObservableTests: XCTestCase {
         var both = Observable(("John", "Smith"))
         
         let getFull = { (x : (String, String)) in "\(x.0 as String) \(x.1 as String)" }
-        var full = getFull(both)
+        var full = getFull(both^)
 
         both.afterChange += { full = getFull($0) }
         
         // fortunately this calls a setter (as a tuples are value types)
         both.value.1 = "Snow"
-        XCTAssertEqual(full, getFull(both), "Should update when one element changes")
+        XCTAssertEqual(full, getFull(both^), "Should update when one element changes")
 
         both <- ("Ramsay", "Bolton")
         XCTAssertEqual(full, "Ramsay Bolton", "Should update when whole tuple changes")
@@ -251,7 +229,7 @@ class ObservableTests: XCTestCase {
         var either3 = Observable(("Mr.", "John", "Smith"))
         
         let getFull = { (x: (String, String, String)) in "\(x.0) \(x.1) \(x.2)" }
-        var full = getFull(either3)
+        var full = getFull(either3^)
         
         either3.afterChange += { full = getFull($0) }
         
@@ -268,7 +246,7 @@ class ObservableTests: XCTestCase {
         
         var person = Observable(Person(first: "John", last: "Smith"))
         let getFull = { (x: Person) in "\(x.first) \(x.last)" }
-        var full = getFull(person)
+        var full = getFull(person^)
         
         person.afterChange += { full = getFull($0) }
         
@@ -468,7 +446,7 @@ class ObservableTests: XCTestCase {
     func testReferences() {
         let x = ObservableReference(0)
         x <- 1
-        XCTAssertEqual(x as Int, 1, "Should be equal to one")
+        XCTAssertEqual(x^, 1, "Should be equal to one")
     }
     
     func testChainingWithStructs() {

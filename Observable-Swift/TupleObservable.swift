@@ -21,10 +21,6 @@ public class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObser
     
     public var value : (T1, T2) { return (first, second) }
     
-    public func __conversion() -> (T1, T2) {
-        return value
-    }
-    
     internal let _base1 : O1
     internal let _base2 : O2
     

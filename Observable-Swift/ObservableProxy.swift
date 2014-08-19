@@ -17,10 +17,6 @@ public class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : Ownab
     
     public internal(set) var value : T
     
-    public func __conversion () -> T {
-        return value
-    }
-    
     public init (_ o : O) {
         self.value = o.value
         o.beforeChange.add(owner: self) { [weak self] change in

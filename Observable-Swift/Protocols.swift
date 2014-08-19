@@ -54,9 +54,6 @@ public protocol AnyObservable {
     
     /// Event fired after value is changed
     var afterChange : EventReference<ValueChange<ValueType>> { get }
-    
-    /// Conversion function for casting to ValueType.
-    func __conversion () -> ValueType
 }
 
 /// Observable which can be written to

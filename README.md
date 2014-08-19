@@ -15,7 +15,7 @@ Using `Observable<T>` and related classes you can implement wide range of patter
 
 - observable variables and properties
 - chaining of observables (a.k.a. key path observing)
-- short readable syntax using `+=`, `-=`, `<-`, `^`
+- short readable syntax using `+=`, `-=`, `<-`/`^=`, `^`
 - alternative syntax for those who dislike custom operators
 - handlers for _before_ or _after_ the change
 - handlers for `{ oldValue:, newValue: }` `(oldValue, newValue)` or `(newValue)`
@@ -23,7 +23,7 @@ Using `Observable<T>` and related classes you can implement wide range of patter
 - removing / invalidating handlers
 - handlers tied to observer lifetime
 - observable mutations of value types (structs, tuples, ...)
-- conversions from observables to underlying type
+- ~~conversions from observables to underlying type~~ (not available since Swift Beta 6)
 - observables combining other observables
 - observables as value types or reference types
 - ...
@@ -35,7 +35,7 @@ Under the hood `Observable<T>` uses `beforeChange` and `afterChange` of `EventRe
 
 ## Installation
 
-As of writing, Xcode 6 beta 5 does not support Swift static libraries, and CocoaPods 0.33.1 does not support Frameworks...
+As of writing, Xcode 6 beta 6 does not support Swift static libraries, and CocoaPods 0.33.1 does not support Frameworks...
 
 Easiest option to use Observable-Swift in your project is to clone this repo and add Observable-Swift.xcodeproj to your project/workspace and then add Observable.framework to frameworks for your target.
 
@@ -54,7 +54,7 @@ x.afterChange += { println("Changed x from \($0) to \($1)") }
 
 // change the value, prints "Changed x from 0 to 42"
 x <- 42
-// without operators: x.value = 42
+// alternativelyL x ^= 42, without operators: x.value = 42
 ```
 
 You can, of course, have observable properties in a `class` or a `struct`:
@@ -73,6 +73,18 @@ struct Person {
 var ramsay = Person(first: "Ramsay", last: "Snow")
 ramsay.last.afterChange += { println("Ramsay \($0) is now Ramsay \($1)") }        
 ramsay.last <- "Bolton"
+```
+Up to Swift Beta 5 you could implicitly convert `Observable<T>` to `T`, and use it in places where `T` is expected. Unfortunately Beta 6 forbids defining implicit conversions:
+```swift
+let x = Observable(20)
+// You can use the value property ...
+let y1 = x.value + 22
+// ... or a postfix operator ...
+let  y2 = x^ + 22
+/// ... which has the advantage of easy chaining
+let y3 = obj.property^.whatever^.sthElse^
+/// ... you can also use ^= instead of <- for consistency with the postfix ^
+
 ```
 
 For value types (such as `structs` or `tuples`) you can also observe their mutations:  

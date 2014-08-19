@@ -12,10 +12,6 @@ public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: Owna
     
     public var value : ValueType { return nil }
     
-    public func __conversion () -> ValueType {
-        return nil
-    }
-    
     internal weak var _beforeChange : EventReference<ValueChange<ValueType>>? = nil
     internal weak var _afterChange : EventReference<ValueChange<ValueType>>? = nil
     

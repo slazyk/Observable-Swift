@@ -15,16 +15,21 @@ public class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : Ownab
     public /*internal(set)*/ var beforeChange = EventReference<ValueChange<T>>()
     public /*internal(set)*/ var afterChange = EventReference<ValueChange<T>>()
     
-    public internal(set) var value : T
+    // private storage in case subclasses override value with a setter
+    private var _value : T
+    
+    public var value : T {
+        return _value
+    }
     
     public init (_ o : O) {
-        self.value = o.value
+        self._value = o.value
         o.beforeChange.add(owner: self) { [weak self] change in
             self!.beforeChange.notify(change)
         }
         o.afterChange.add(owner: self) { [weak self] change in
             let nV = change.newValue
-            self!.value = nV
+            self!._value = nV
             self!.afterChange.notify(change)
         }
     }

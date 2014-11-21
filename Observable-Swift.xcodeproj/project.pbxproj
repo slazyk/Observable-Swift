@@ -453,7 +453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script runs the iphoneos build to make the arm lib, then the sim build to make the x86 lib, then copies the framework and combines the libs into a universal lib\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -project Observable-Swift.xcodeproj -target Observable-iOS ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -project Observable-Swift.xcodeproj -target Observable-iOS -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Copy the device build framework structure\ncp -Rp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/Observable.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework/Observable\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/Observable.framework/Observable\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/Observable.framework/Observable\"\n# copy the swiftmodule and swiftdoc files from the sim build\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/Observable.framework/Modules/Observable.swiftmodule/\" \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework/Modules/Observable.swiftmodule/\"\n\n# Last touch. copy the header files. Just for convenience\n#cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+			shellScript = "# This script runs the iphoneos build to make the arm lib, then the sim build to make the x86 lib, then copies the framework and combines the libs into a universal lib\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -project Observable-Swift.xcodeproj -target Observable ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -project Observable-Swift.xcodeproj -target Observable-iOS ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\nxcodebuild -project Observable-Swift.xcodeproj -target Observable-configuration ${CONFIGURATION} -sdk iphonesimulator -arch x86_64 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -project Observable-Swift.xcodeproj -target Observable-iOS -configuration ${CONFIGURATION} -sdk iphonesimulator -arch x86_64 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}\"\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Copy the device build framework structure\ncp -Rp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/Observable.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework/Observable\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/Observable.framework/Observable\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/Observable.framework/Observable\"\n# copy the swiftmodule and swiftdoc files from the sim build\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/Observable.framework/Modules/Observable.swiftmodule/\" \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework/Modules/Observable.swiftmodule/\"\n\n# Last touch. copy the header files. Just for convenience\n#cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -579,6 +579,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -625,6 +626,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

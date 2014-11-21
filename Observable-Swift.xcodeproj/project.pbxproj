@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		FB5E4DA31A1EBA5900ADEB6C /* UniversalLib */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = FB5E4DA61A1EBA5900ADEB6C /* Build configuration list for PBXAggregateTarget "UniversalLib" */;
+			buildPhases = (
+				FB5E4DA71A1EBA6500ADEB6C /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UniversalLib;
+			productName = UniversalLib;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		1C93C1351AB0F65D0004FCEF /* Observable-Swift.podspec.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C93C1341AB0F65D0004FCEF /* Observable-Swift.podspec.json */; };
 		65263AA31954BC5000B39269 /* Observable.h in Headers */ = {isa = PBXBuildFile; fileRef = 65263AA21954BC5000B39269 /* Observable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -369,6 +383,9 @@
 						CreatedOnToolsVersion = 6.0;
 						TestTargetID = 6592C2FB1957532100BA8CB7;
 					};
+					FB5E4DA31A1EBA5900ADEB6C = {
+						CreatedOnToolsVersion = 6.1;
+					};
 				};
 			};
 			buildConfigurationList = 65263A971954BC5000B39269 /* Build configuration list for PBXProject "Observable-Swift" */;
@@ -387,6 +404,7 @@
 				65263AA71954BC5000B39269 /* Observable Tests */,
 				6592C2FB1957532100BA8CB7 /* Observable-iOS */,
 				6592C3051957532100BA8CB7 /* Observable-iOS Tests */,
+				FB5E4DA31A1EBA5900ADEB6C /* UniversalLib */,
 			);
 		};
 /* End PBXProject section */
@@ -422,6 +440,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FB5E4DA71A1EBA6500ADEB6C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script runs the iphoneos build to make the arm lib, then the sim build to make the x86 lib, then copies the framework and combines the libs into a universal lib\n\n# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -project Observable-Swift.xcodeproj -target Observable-iOS ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -project Observable-Swift.xcodeproj -target Observable-iOS -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Copy the device build framework structure\ncp -Rp \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/Observable.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework/Observable\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/Observable.framework/Observable\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/Observable.framework/Observable\"\n# copy the swiftmodule and swiftdoc files from the sim build\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/Observable.framework/Modules/Observable.swiftmodule/\" \"${UNIVERSAL_OUTPUTFOLDER}/Observable.framework/Modules/Observable.swiftmodule/\"\n\n# Last touch. copy the header files. Just for convenience\n#cp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		65263A981954BC5000B39269 /* Sources */ = {
@@ -734,6 +769,20 @@
 			};
 			name = Release;
 		};
+		FB5E4DA41A1EBA5900ADEB6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FB5E4DA51A1EBA5900ADEB6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -781,6 +830,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		FB5E4DA61A1EBA5900ADEB6C /* Build configuration list for PBXAggregateTarget "UniversalLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB5E4DA41A1EBA5900ADEB6C /* Debug */,
+				FB5E4DA51A1EBA5900ADEB6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

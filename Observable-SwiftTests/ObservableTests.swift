@@ -590,4 +590,22 @@ class ObservableTests: XCTestCase {
         XCTAssertNil(proxy)
         
     }
+    
+    func testObservingAnArray() {
+        let ref = [1, 2, 3, 42]
+        var comp : [Int] = []
+        var vals = Observable<[Int]>([])
+        var changes = 0
+        vals.afterChange.add {
+            comp = [Int]($0.newValue)
+            changes += 1
+        }
+        for x in ref {
+            vals.value.append(x)
+        }
+        XCTAssertTrue(ref == vals^)
+        XCTAssertTrue(ref == comp)
+        XCTAssertEqual(changes, ref.count)
+    }
+    
 }

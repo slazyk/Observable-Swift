@@ -118,7 +118,7 @@ public func chain<O: AnyObservable>(o: O) -> ObservableChainingBase<O> {
 }
 
 public func / <O1: AnyObservable, O2: AnyObservable, O3: AnyObservable> (o: ObservableChainingProxy<O1, O2>, f: O2.ValueType -> O3?) -> ObservableChainingProxy<ObservableChainingProxy<O1, O2>, O3> {
-    return o.to(f)
+    return o.to(path: f)
 }
 
 public func / <O1: AnyObservable, O2: AnyObservable> (o: O1, f: O1.ValueType -> O2?) -> ObservableChainingProxy<O1, O2> {

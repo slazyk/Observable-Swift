@@ -41,7 +41,7 @@ public class OwningEventReference<T>: EventReference<T> {
         event.removeAll()
     }
     
-    public override func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
+    public override func add(owner owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
         let subscr = event.add(owner: owner, handler)
         if owned != nil {
             subscr.addOwnedObject(self)

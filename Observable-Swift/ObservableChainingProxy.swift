@@ -56,11 +56,11 @@ public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: Owna
         self.base = base
         self.path = path
 
-        var beforeSubscription = EventSubscription(owner: self) { [weak self] in
+        let beforeSubscription = EventSubscription(owner: self) { [weak self] in
             self!.beforeChange.notify(self!.targetChangeToValueChange($0))
         }
         
-        var afterSubscription = EventSubscription(owner: self) { [weak self] in
+        let afterSubscription = EventSubscription(owner: self) { [weak self] in
             self!.afterChange.notify(self!.targetChangeToValueChange($0))
         }
         

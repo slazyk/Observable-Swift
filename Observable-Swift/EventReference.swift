@@ -34,7 +34,7 @@ public class EventReference<T>: OwnableEvent {
         event.removeAll()
     }
     
-    public func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
+    public func add(owner owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
         return event.add(owner: owner, handler)
     }
     

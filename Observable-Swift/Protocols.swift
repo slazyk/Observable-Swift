@@ -27,7 +27,7 @@ public protocol AnyEvent {
     mutating func removeAll()
     
     /// Create, add and return a subscription with given handler and owner.
-    mutating func add(#owner : AnyObject, _ handler : ValueType -> ()) -> EventSubscription<ValueType>
+    mutating func add(owner owner : AnyObject, _ handler : ValueType -> ()) -> EventSubscription<ValueType>
 
 }
 
@@ -64,7 +64,7 @@ public protocol WritableObservable : AnyObservable {
 /// Observable which is a value type. Elementary observables are value types.
 public protocol UnownableObservable : WritableObservable {
     /// Unshares events
-    mutating func unshare(#removeSubscriptions: Bool)
+    mutating func unshare(removeSubscriptions removeSubscriptions: Bool)
 }
 
 /// Observable which is a reference type. Compound observables are reference types.

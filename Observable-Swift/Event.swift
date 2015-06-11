@@ -51,7 +51,7 @@ public struct Event<T>: UnownableEvent {
         _subscriptions.removeAll()
     }
     
-    public mutating func add(#owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
+    public mutating func add(owner owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
         return add(SubscriptionType(owner: owner, handler: handler))
     }
     

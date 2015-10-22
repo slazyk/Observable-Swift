@@ -108,7 +108,7 @@ class ObservableTests: XCTestCase {
     
     func testAddHandlerToOptional() {
         var original = Observable(0)
-        var optional = Optional.Some(original)
+        let optional = Optional.Some(original)
         
         var calledTimes = 0
         optional!.afterChange.add({ _ in calledTimes += 1 })
@@ -132,7 +132,7 @@ class ObservableTests: XCTestCase {
     }
     
     func testValueAfterCopy() {
-        var original = Observable(0)
+        let original = Observable(0)
         var copy = makeCopy(original)
         
         XCTAssertEqual(0, original^)
@@ -197,7 +197,7 @@ class ObservableTests: XCTestCase {
     
     func testTripleObserver() {
         var (title, first, last) = (Observable("Mr."), Observable("John"), Observable("Smith"))
-        var either3 = title & first & last
+        let either3 = title & first & last
         
         let getFull = { "\($0 as String) \($1 as String) \($2 as String)" }
         var full = getFull(title^, first^, last^)
@@ -356,7 +356,7 @@ class ObservableTests: XCTestCase {
         var x = Observable(0)
         var y = 0
 
-        var xr = proxy(x)
+        let xr = proxy(x)
         xr.afterChange += { (_,_) in y += 1 }
 
         for i in 0..<5 { x <- i }
@@ -487,10 +487,10 @@ class ObservableTests: XCTestCase {
             }
         }
         
-        var john = Person(first: "John", last: "Doe")
-        var ramsay = Person(first: "Ramsay", last: "Snow")
+        let john = Person(first: "John", last: "Doe")
+        let ramsay = Person(first: "Ramsay", last: "Snow")
         
-        var me = Person(first: "John", last: "Snow")
+        let me = Person(first: "John", last: "Snow")
         
         var name1 : String? = nil
         var name2 : String? = nil

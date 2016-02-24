@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6592C2FB1957532100BA8CB7"
+               BlueprintIdentifier = "65263A9C1954BC5000B39269"
                BuildableName = "Observable.framework"
-               BlueprintName = "Observable-iOS"
+               BlueprintName = "Observable"
                ReferencedContainer = "container:Observable-Swift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6592C3051957532100BA8CB7"
-               BuildableName = "Observable-iOS Tests.xctest"
-               BlueprintName = "Observable-iOS Tests"
+               BlueprintIdentifier = "65263AA71954BC5000B39269"
+               BuildableName = "Observable Tests.xctest"
+               BlueprintName = "Observable Tests"
                ReferencedContainer = "container:Observable-Swift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6592C3051957532100BA8CB7"
-               BuildableName = "Observable-iOS Tests.xctest"
-               BlueprintName = "Observable-iOS Tests"
+               BlueprintIdentifier = "65263AA71954BC5000B39269"
+               BuildableName = "Observable Tests.xctest"
+               BlueprintName = "Observable Tests"
                ReferencedContainer = "container:Observable-Swift.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -56,9 +56,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6592C2FB1957532100BA8CB7"
+            BlueprintIdentifier = "65263A9C1954BC5000B39269"
             BuildableName = "Observable.framework"
-            BlueprintName = "Observable-iOS"
+            BlueprintName = "Observable"
             ReferencedContainer = "container:Observable-Swift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -78,9 +78,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6592C2FB1957532100BA8CB7"
+            BlueprintIdentifier = "65263A9C1954BC5000B39269"
             BuildableName = "Observable.framework"
-            BlueprintName = "Observable-iOS"
+            BlueprintName = "Observable"
             ReferencedContainer = "container:Observable-Swift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -96,9 +96,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6592C2FB1957532100BA8CB7"
+            BlueprintIdentifier = "65263A9C1954BC5000B39269"
             BuildableName = "Observable.framework"
-            BlueprintName = "Observable-iOS"
+            BlueprintName = "Observable"
             ReferencedContainer = "container:Observable-Swift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

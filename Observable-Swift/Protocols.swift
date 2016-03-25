@@ -9,7 +9,7 @@
 /// Arbitrary Event.
 public protocol AnyEvent {
     
-    typealias ValueType
+    associatedtype ValueType
     
     /// Notify all valid subscriptions of the change. Remove invalid ones.
     mutating func notify(value: ValueType)
@@ -44,7 +44,7 @@ public protocol OwnableEvent: AnyEvent {
 /// Arbitrary observable.
 public protocol AnyObservable {
     
-    typealias ValueType
+    associatedtype ValueType
     
     /// Value of the observable.
     var value : ValueType { get }
@@ -119,8 +119,9 @@ public func <- <T : protocol<WritableObservable, UnownableObservable>> (inout x:
 }
 
 // for observable references on variables or constants
-public func <- <T : protocol<WritableObservable, OwnableObservable>> (var x: T, y: T.ValueType) {
-    x.value = y
+public func <- <T : protocol<WritableObservable, OwnableObservable>> (x: T, y: T.ValueType) {
+    var z = x
+    z.value = y
 }
 
 public postfix func ^ <T : AnyObservable> (x: T) -> T.ValueType {

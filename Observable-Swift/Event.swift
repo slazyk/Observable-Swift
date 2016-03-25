@@ -65,14 +65,16 @@ public func += <T: UnownableEvent> (inout event: T, handler: T.ValueType -> ()) 
     return event.add(handler)
 }
 
-public func += <T: OwnableEvent> (var event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
-    return event.add(handler)
+public func += <T: OwnableEvent> (event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
+    var e = event
+    return e.add(handler)
 }
 
 public  func -= <T: UnownableEvent> (inout event: T, subscription: EventSubscription<T.ValueType>) {
     return event.remove(subscription)
 }
 
-public func -= <T: OwnableEvent> (var event: T, subscription: EventSubscription<T.ValueType>) {
-    return event.remove(subscription)
+public func -= <T: OwnableEvent> (event: T, subscription: EventSubscription<T.ValueType>) {
+    var e = event
+    return e.remove(subscription)
 }

@@ -122,6 +122,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C35F8351CA6FE630073DDE4 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		1C35F8361CA6FE630073DDE4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		1C35F8371CA6FE630073DDE4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1C93C1341AB0F65D0004FCEF /* Observable-Swift.podspec.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Observable-Swift.podspec.json"; sourceTree = "<group>"; };
 		65263A9D1954BC5000B39269 /* Observable.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Observable.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65263AA11954BC5000B39269 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -178,6 +181,9 @@
 		65263A931954BC5000B39269 = {
 			isa = PBXGroup;
 			children = (
+				1C35F8361CA6FE630073DDE4 /* LICENSE */,
+				1C35F8351CA6FE630073DDE4 /* CHANGELOG.md */,
+				1C35F8371CA6FE630073DDE4 /* README.md */,
 				1C93C1341AB0F65D0004FCEF /* Observable-Swift.podspec.json */,
 				65263A9F1954BC5000B39269 /* Observable */,
 				65263AAC1954BC5000B39269 /* ObservableTests */,

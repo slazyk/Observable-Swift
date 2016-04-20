@@ -18,6 +18,9 @@ public struct Event<T>: UnownableEvent {
     
     internal var _subscriptions = [SubscriptionType]()
     
+    public init() {
+    }
+    
     public mutating func notify(value: T) {
         _subscriptions = _subscriptions.filter { $0.valid() }
         for subscription in _subscriptions {

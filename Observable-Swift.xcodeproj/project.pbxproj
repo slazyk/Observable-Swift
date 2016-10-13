@@ -46,6 +46,8 @@
 		65D5366B195F711E003B5DA5 /* OwningEventReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D53669195F711E003B5DA5 /* OwningEventReference.swift */; };
 		65E6A4341958EB8000FBCFA7 /* ObservableProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E6A4331958EB8000FBCFA7 /* ObservableProxy.swift */; };
 		65E6A4351958EB8000FBCFA7 /* ObservableProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E6A4331958EB8000FBCFA7 /* ObservableProxy.swift */; };
+		CD4884141DB041B4009A9E06 /* ObservableTransformProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4884131DB041B4009A9E06 /* ObservableTransformProxy.swift */; };
+		D65823271DB5980F001B11E3 /* ObservableTransformProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4884131DB041B4009A9E06 /* ObservableTransformProxy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +157,7 @@
 		65D53669195F711E003B5DA5 /* OwningEventReference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OwningEventReference.swift; sourceTree = "<group>"; };
 		65E6A4331958EB8000FBCFA7 /* ObservableProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableProxy.swift; sourceTree = "<group>"; };
 		65E7DC711957919100CFB99C /* ObservableChainingProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableChainingProxy.swift; sourceTree = "<group>"; };
+		CD4884131DB041B4009A9E06 /* ObservableTransformProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservableTransformProxy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +228,7 @@
 				65263ABF1954BD7400B39269 /* TupleObservable.swift */,
 				65263AA21954BC5000B39269 /* Observable.h */,
 				65263AA01954BC5000B39269 /* Supporting Files */,
+				CD4884131DB041B4009A9E06 /* ObservableTransformProxy.swift */,
 			);
 			name = Observable;
 			path = "Observable-Swift";
@@ -474,6 +478,7 @@
 				65263AC61955D7AF00B39269 /* Event.swift in Sources */,
 				65D5366A195F711E003B5DA5 /* OwningEventReference.swift in Sources */,
 				65E6A4341958EB8000FBCFA7 /* ObservableProxy.swift in Sources */,
+				CD4884141DB041B4009A9E06 /* ObservableTransformProxy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +504,7 @@
 				6592C3291957545C00BA8CB7 /* ObservableReference.swift in Sources */,
 				65D5366B195F711E003B5DA5 /* OwningEventReference.swift in Sources */,
 				65E6A4351958EB8000FBCFA7 /* ObservableProxy.swift in Sources */,
+				D65823271DB5980F001B11E3 /* ObservableTransformProxy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,7 +601,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.5.0;
+				CURRENT_PROJECT_VERSION = 0.6.0;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -643,7 +649,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 0.5.0;
+				CURRENT_PROJECT_VERSION = 0.6.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

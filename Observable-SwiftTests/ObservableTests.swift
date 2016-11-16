@@ -14,7 +14,7 @@ class ObservableTests: XCTestCase {
     
     // copying an observable is exposed here as a function in case it changes
     // e.g. if Observables become classes instead of structs
-    func makeCopy<T>(x: Observable<T>) -> Observable<T> {
+    func makeCopy<T>(_ x: Observable<T>) -> Observable<T> {
         var copy = Observable(x^)
         copy.unshare(removeSubscriptions: true)
         return copy
@@ -108,7 +108,7 @@ class ObservableTests: XCTestCase {
     
     func testAddHandlerToOptional() {
         var original = Observable(0)
-        let optional = Optional.Some(original)
+        let optional = Optional.some(original)
         
         var calledTimes = 0
         optional!.afterChange.add({ _ in calledTimes += 1 })

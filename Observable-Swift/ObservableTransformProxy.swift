@@ -8,20 +8,19 @@
 
 import Foundation
 
-//TODO: Move this to Observable-Swift framework, and submit PR to original Repo
-public class ObservableTransformProxy<TransformType, ObservableType:AnyObservable> : OwnableObservable {
+open class ObservableTransformProxy<TransformType, ObservableType:AnyObservable> : OwnableObservable {
     
-    public /*internal(set)*/ var beforeChange = EventReference<ValueChange<TransformType>>()
-    public /*internal(set)*/ var afterChange = EventReference<ValueChange<TransformType>>()
+    open /*internal(set)*/ var beforeChange = EventReference<ValueChange<TransformType>>()
+    open /*internal(set)*/ var afterChange = EventReference<ValueChange<TransformType>>()
     
     // private storage in case subclasses override value with a setter
-    private var _value : TransformType
+    fileprivate var _value : TransformType
     
-    public var value : TransformType {
+    open var value : TransformType {
         return _value
     }
     
-    public init(_ o: ObservableType, transform:ObservableType.ValueType->TransformType) {
+    public init(_ o: ObservableType, transform:@escaping (ObservableType.ValueType)->TransformType) {
         
         self._value = transform(o.value)
         o.beforeChange.add(owner: self) { [weak self] change in

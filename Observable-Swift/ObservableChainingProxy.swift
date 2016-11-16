@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 Leszek Ślażyński. All rights reserved.
 //
 
-public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: OwnableObservable {
+open class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: OwnableObservable {
     
     public typealias ValueType = O2.ValueType?
     
-    public var value : ValueType { return nil }
+    open var value : ValueType { return nil }
     
     internal weak var _beforeChange : EventReference<ValueChange<ValueType>>? = nil
     internal weak var _afterChange : EventReference<ValueChange<ValueType>>? = nil
     
-    public var beforeChange : EventReference<ValueChange<ValueType>> {
+    open var beforeChange : EventReference<ValueChange<ValueType>> {
         if let event = _beforeChange {
             return event
         } else {
@@ -26,7 +26,7 @@ public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: Owna
         }
     }
     
-    public var afterChange : EventReference<ValueChange<ValueType>> {
+    open var afterChange : EventReference<ValueChange<ValueType>> {
         if let event = _afterChange {
             return event
         } else {
@@ -38,21 +38,21 @@ public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: Owna
     }
     
     internal let base: O1
-    internal let path: O1.ValueType -> O2?
+    internal let path: (O1.ValueType) -> O2?
     
-    private func targetChangeToValueChange(vc: ValueChange<O2.ValueType>) -> ValueChange<ValueType> {
-        let oldValue = Optional.Some(vc.oldValue)
-        let newValue = Optional.Some(vc.newValue)
+    fileprivate func targetChangeToValueChange(_ vc: ValueChange<O2.ValueType>) -> ValueChange<ValueType> {
+        let oldValue = Optional.some(vc.oldValue)
+        let newValue = Optional.some(vc.newValue)
         return ValueChange(oldValue, newValue)
     }
         
-    private func objectChangeToValueChange(oc: ValueChange<O1.ValueType>) -> ValueChange<ValueType> {
+    fileprivate func objectChangeToValueChange(_ oc: ValueChange<O1.ValueType>) -> ValueChange<ValueType> {
         let oldValue = path(oc.oldValue)?.value
         let newValue = path(oc.newValue)?.value
         return ValueChange(oldValue, newValue)
     }
     
-    init(base: O1, path: O1.ValueType -> O2?) {
+    init(base: O1, path: @escaping (O1.ValueType) -> O2?) {
         self.base = base
         self.path = path
 
@@ -79,8 +79,8 @@ public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: Owna
         }
     }
     
-    public func to<O3: AnyObservable>(path f: O2.ValueType -> O3?) -> ObservableChainingProxy<ObservableChainingProxy<O1, O2>, O3> {
-        func cascadeNil(oOrNil: ValueType) -> O3? {
+    open func to<O3: AnyObservable>(path f: @escaping (O2.ValueType) -> O3?) -> ObservableChainingProxy<ObservableChainingProxy<O1, O2>, O3> {
+        func cascadeNil(_ oOrNil: ValueType) -> O3? {
             if let o = oOrNil {
                 return f(o)
             } else {
@@ -90,8 +90,8 @@ public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: Owna
         return ObservableChainingProxy<ObservableChainingProxy<O1, O2>, O3>(base: self, path: cascadeNil)
     }
     
-    public func to<O3: AnyObservable>(path f: O2.ValueType -> O3) -> ObservableChainingProxy<ObservableChainingProxy<O1, O2>, O3> {
-        func cascadeNil(oOrNil: ValueType) -> O3? {
+    open func to<O3: AnyObservable>(path f: @escaping (O2.ValueType) -> O3) -> ObservableChainingProxy<ObservableChainingProxy<O1, O2>, O3> {
+        func cascadeNil(_ oOrNil: ValueType) -> O3? {
             if let o = oOrNil {
                 return f(o)
             } else {
@@ -105,22 +105,22 @@ public class ObservableChainingProxy<O1: AnyObservable, O2: AnyObservable>: Owna
 
 public struct ObservableChainingBase<O1: AnyObservable> {
     internal let base: O1
-    public func to<O2: AnyObservable>(path: O1.ValueType -> O2?) -> ObservableChainingProxy<O1, O2> {
+    public func to<O2: AnyObservable>(_ path: @escaping (O1.ValueType) -> O2?) -> ObservableChainingProxy<O1, O2> {
         return ObservableChainingProxy(base: base, path: path)
     }
-    public func to<O2: AnyObservable>(path: O1.ValueType -> O2) -> ObservableChainingProxy<O1, O2> {
-        return ObservableChainingProxy(base: base, path: { .Some(path($0)) })
+    public func to<O2: AnyObservable>(_ path: @escaping (O1.ValueType) -> O2) -> ObservableChainingProxy<O1, O2> {
+        return ObservableChainingProxy(base: base, path: { .some(path($0)) })
     }
 }
 
-public func chain<O: AnyObservable>(o: O) -> ObservableChainingBase<O> {
+public func chain<O: AnyObservable>(_ o: O) -> ObservableChainingBase<O> {
     return ObservableChainingBase(base: o)
 }
 
-public func / <O1: AnyObservable, O2: AnyObservable, O3: AnyObservable> (o: ObservableChainingProxy<O1, O2>, f: O2.ValueType -> O3?) -> ObservableChainingProxy<ObservableChainingProxy<O1, O2>, O3> {
+public func / <O1: AnyObservable, O2: AnyObservable, O3: AnyObservable> (o: ObservableChainingProxy<O1, O2>, f: @escaping (O2.ValueType) -> O3?) -> ObservableChainingProxy<ObservableChainingProxy<O1, O2>, O3> {
     return o.to(path: f)
 }
 
-public func / <O1: AnyObservable, O2: AnyObservable> (o: O1, f: O1.ValueType -> O2?) -> ObservableChainingProxy<O1, O2> {
+public func / <O1: AnyObservable, O2: AnyObservable> (o: O1, f: @escaping (O1.ValueType) -> O2?) -> ObservableChainingProxy<O1, O2> {
     return ObservableChainingProxy(base: o, path: f)
 }

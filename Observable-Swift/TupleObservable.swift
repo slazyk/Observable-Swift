@@ -6,20 +6,20 @@
 //  Copyright (c) 2014 Leszek Ślażyński. All rights reserved.
 //
 
-public class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
+open class PairObservable<O1: AnyObservable, O2: AnyObservable> : OwnableObservable {
     
     internal typealias T1 = O1.ValueType
     internal typealias T2 = O2.ValueType
     
     public typealias ValueType = (T1, T2)
     
-    public /*internal(set)*/ var beforeChange = EventReference<ValueChange<(T1, T2)>>()
-    public /*internal(set)*/ var afterChange = EventReference<ValueChange<(T1, T2)>>()
+    open /*internal(set)*/ var beforeChange = EventReference<ValueChange<(T1, T2)>>()
+    open /*internal(set)*/ var afterChange = EventReference<ValueChange<(T1, T2)>>()
     
     internal var first : T1
     internal var second : T2
     
-    public var value : (T1, T2) { return (first, second) }
+    open var value : (T1, T2) { return (first, second) }
     
     internal let _base1 : O1
     internal let _base2 : O2

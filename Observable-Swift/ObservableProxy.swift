@@ -8,17 +8,17 @@
 
 // two generic parameters are needed to be able to override `value` in `ObservableReference<T>`
 
-public class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : OwnableObservable {
+open class ObservableProxy<T, O: AnyObservable> : OwnableObservable where O.ValueType == T {
     
     public typealias ValueType = T
     
-    public /*internal(set)*/ var beforeChange = EventReference<ValueChange<T>>()
-    public /*internal(set)*/ var afterChange = EventReference<ValueChange<T>>()
+    open /*internal(set)*/ var beforeChange = EventReference<ValueChange<T>>()
+    open /*internal(set)*/ var afterChange = EventReference<ValueChange<T>>()
     
     // private storage in case subclasses override value with a setter
-    private var _value : T
+    fileprivate var _value : T
     
-    public var value : T {
+    open var value : T {
         return _value
     }
     
@@ -36,6 +36,6 @@ public class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : Ownab
     
 }
 
-public func proxy <O: AnyObservable> (o: O) -> ObservableProxy<O.ValueType, O> {
+public func proxy <O: AnyObservable> (_ o: O) -> ObservableProxy<O.ValueType, O> {
     return ObservableProxy(o)
 }

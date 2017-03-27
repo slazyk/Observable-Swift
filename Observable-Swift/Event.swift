@@ -16,45 +16,47 @@ public struct Event<T>: UnownableEvent {
     public typealias SubscriptionType = EventSubscription<T>
     public typealias HandlerType = SubscriptionType.HandlerType
     
-    internal var _subscriptions = [SubscriptionType]()
+    public private(set) var subscriptions = [SubscriptionType]()
     
-    public init() {
-    }
+    public init() { }
     
-    public mutating func notify(value: T) {
-        _subscriptions = _subscriptions.filter { $0.valid() }
-        for subscription in _subscriptions {
+    public mutating func notify(_ value: T) {
+        subscriptions = subscriptions.filter { $0.valid() }
+        for subscription in subscriptions {
             subscription.handler(value)
         }
     }
     
-    public mutating func add(subscription: SubscriptionType) -> SubscriptionType {
-        _subscriptions.append(subscription)
+    @discardableResult
+    public mutating func add(_ subscription: SubscriptionType) -> SubscriptionType {
+        subscriptions.append(subscription)
         return subscription
     }
     
-    public mutating func add(handler : HandlerType) -> SubscriptionType {
+    @discardableResult
+    public mutating func add(_ handler: @escaping HandlerType) -> SubscriptionType {
         return add(SubscriptionType(owner: nil, handler: handler))
     }
     
-    public mutating func remove(subscription : SubscriptionType) {
+    public mutating func remove(_ subscription: SubscriptionType) {
         var newsubscriptions = [SubscriptionType]()
         var first = true
-        for existing in _subscriptions {
+        for existing in subscriptions {
             if first && existing === subscription {
                 first = false
             } else {
                 newsubscriptions.append(existing)
             }
         }
-        _subscriptions = newsubscriptions
+        subscriptions = newsubscriptions
     }
     
     public mutating func removeAll() {
-        _subscriptions.removeAll()
+        subscriptions.removeAll()
     }
     
-    public mutating func add(owner owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
+    @discardableResult
+    public mutating func add(owner: AnyObject, _ handler: @escaping HandlerType) -> SubscriptionType {
         return add(SubscriptionType(owner: owner, handler: handler))
     }
     
@@ -64,16 +66,18 @@ public struct Event<T>: UnownableEvent {
     
 }
 
-public func += <T: UnownableEvent> (inout event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
+@discardableResult
+public func += <T: UnownableEvent> (event: inout T, handler: @escaping (T.ValueType) -> ()) -> EventSubscription<T.ValueType> {
     return event.add(handler)
 }
 
-public func += <T: OwnableEvent> (event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
+@discardableResult
+public func += <T: OwnableEvent> (event: T, handler: @escaping (T.ValueType) -> ()) -> EventSubscription<T.ValueType> {
     var e = event
     return e.add(handler)
 }
 
-public  func -= <T: UnownableEvent> (inout event: T, subscription: EventSubscription<T.ValueType>) {
+public func -= <T: UnownableEvent> (event: inout T, subscription: EventSubscription<T.ValueType>) {
     return event.remove(subscription)
 }
 

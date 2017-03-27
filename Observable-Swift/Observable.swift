@@ -19,27 +19,29 @@ public struct ValueChange<T> {
 // Implemented as a struct in order to have desired value and mutability sementics.
 
 /// A struct representing an observable value.
-public struct Observable<T> : UnownableObservable {
+public struct Observable<T>: UnownableObservable {
     
     public typealias ValueType = T
 
-    public /*internal(set)*/ var beforeChange = EventReference<ValueChange<T>>()
-    public /*internal(set)*/ var afterChange = EventReference<ValueChange<T>>()
+    public private(set) var beforeChange = EventReference<ValueChange<T>>()
+    public private(set) var afterChange = EventReference<ValueChange<T>>()
     
     public var value : T {
-    willSet { beforeChange.notify(ValueChange(value, newValue)) }
-    didSet { afterChange.notify(ValueChange(oldValue, value)) }
+        willSet { beforeChange.notify(ValueChange(value, newValue)) }
+        didSet { afterChange.notify(ValueChange(oldValue, value)) }
     }
     
-    public mutating func unshare(removeSubscriptions removeSubscriptions: Bool) {
+    public mutating func unshare(removeSubscriptions: Bool) {
         if removeSubscriptions {
             beforeChange = EventReference<ValueChange<T>>()
             afterChange = EventReference<ValueChange<T>>()
         } else {
-            beforeChange = EventReference<ValueChange<T>>(event: beforeChange.event)
-            beforeChange.event.unshare()
-            afterChange = EventReference<ValueChange<T>>(event: afterChange.event)
-            afterChange.event.unshare()
+            var beforeEvent = beforeChange.event
+            beforeEvent.unshare()
+            beforeChange = EventReference<ValueChange<T>>(event: beforeEvent)
+            var afterEvent = afterChange.event
+            afterEvent.unshare()
+            afterChange = EventReference<ValueChange<T>>(event: afterEvent)
         }
     }
 

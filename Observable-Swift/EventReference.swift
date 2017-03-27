@@ -7,34 +7,37 @@
 //
 
 /// A class enclosing an Event struct. Thus exposing it as a reference type.
-public class EventReference<T>: OwnableEvent {
+open class EventReference<T>: OwnableEvent {
     public typealias ValueType = T
     public typealias SubscriptionType = EventSubscription<T>
     public typealias HandlerType = EventSubscription<T>.HandlerType
     
-    internal var event: Event<T>
+    public private(set) var event: Event<T>
     
-    public func notify(value: T) {
+    open func notify(_ value: T) {
         event.notify(value)
     }
     
-    public func add(subscription: SubscriptionType) -> SubscriptionType {
+    @discardableResult
+    open func add(_ subscription: SubscriptionType) -> SubscriptionType {
         return event.add(subscription)
     }
     
-    public func add(handler : T -> ()) -> EventSubscription<T> {
+    @discardableResult
+    open func add(_ handler: @escaping (T) -> ()) -> EventSubscription<T> {
         return event.add(handler)
     }
     
-    public func remove(subscription : SubscriptionType) {
+    open func remove(_ subscription: SubscriptionType) {
         return event.remove(subscription)
     }
     
-    public func removeAll() {
+    open func removeAll() {
         event.removeAll()
     }
     
-    public func add(owner owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
+    @discardableResult
+    open func add(owner: AnyObject, _ handler: @escaping HandlerType) -> SubscriptionType {
         return event.add(owner: owner, handler)
     }
     

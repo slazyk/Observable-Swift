@@ -10,14 +10,14 @@ public class ObservableReference<T> : ObservableProxy<T, Observable<T>>, Writabl
     
     public typealias ValueType = T
     
-    internal var storage : Observable<T>
+    private var storage: Observable<T>
     
     public override var value: T {
-    get { return storage.value }
-    set { storage.value = newValue }
+        get { return storage.value }
+        set { storage.value = newValue }
     }
     
-    public init (_ v : T) {
+    public init(_ v : T) {
         storage = Observable(v)
         super.init(storage)
     }
